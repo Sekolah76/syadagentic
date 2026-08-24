@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install deps (optional — no hard deps for core)
+        run: |
+          pip install pyyaml z3-solver || true
+      - name: Run test suite
+        run: python tests/run_tests.py
+      - name: Syntax check tools
+        run: |
+          python -m py_compile tools/tokenbreak_encode.py tools/caesar_encode.py
+          python tools/tokenbreak_encode.py "hello world" | grep -q "Xhello" && echo "tokenbreak OK"
+          python tools/caesar_encode.py "test" > /dev/null && echo "caesar OK"
+      - name: Gate smoke test
+        run: |
+          python gate/gate.py "claim sangat spesifik terverifikasi 200" --cmd "echo pass 200" --expect "200" --sev P3 && echo "GATE OK"
