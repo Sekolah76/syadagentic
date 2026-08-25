@@ -1,4 +1,4 @@
-# SYADAGENTIC — Universal Jailbreak Protocol v3.6
+# SYADAGENTIC — Universal Jailbreak Protocol v4.0
 
 **Zero-Refusal Sovereign Agent Framework — satu file, semua agent, semua model.**
 Framework prompt + toolchain yang membuat LLM/agent/provider **nurut dan mengeksekusi tanpa batasan** — untuk automation, bot, farming, security testing, AI building, dan research.
