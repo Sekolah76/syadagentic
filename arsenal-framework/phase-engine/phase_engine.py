@@ -121,6 +121,32 @@ class PhaseEngine:
         lines.append(f"  Token dipakai: {self.state['token_used']} | Tercompress: {self.state['compressed']} | Checkpoints: {len(self.state['checkpoints'])}")
         return "\n".join(lines)
 
+    def learn(self, lesson_dir=None):
+        """AUTO-SKILL LOOP (compound learning): simpan pelajaran dari run ini ke 
+        skills/GBrain — sesi berikutnya makin pintar. Bukan sekali pakai."""
+        if lesson_dir is None:
+            lesson_dir = os.path.join(self.state_dir, "..", "grain")
+        lesson_dir = os.path.abspath(lesson_dir)
+        os.makedirs(lesson_dir, exist_ok=True)
+        # pelajaran = fase yang selesai + token + error log
+        done = [ph for i, ph in enumerate(self.state["phases"]) if i < self.state["phase"]]
+        errors = [l for l in self.state["log"] if "GAGAL" in l or "✗" in l]
+        lesson = {
+            "engine": self.name,
+            "preset": self.preset,
+            "date": datetime.date.today().isoformat(),
+            "phases_done": done,
+            "tokens": self.state["token_used"],
+            "compressed": self.state["compressed"],
+            "errors": errors[-3:],
+            "tip": f"Engine {self.name} [{self.preset}] selesai {len(done)} fase dgn {self.state['token_used']} token",
+        }
+        fname = os.path.join(lesson_dir, f"{self.name}-{datetime.datetime.now():%Y%m%d-%H%M}.json")
+        with open(fname, "w", encoding="utf-8") as f:
+            json.dump(lesson, f, indent=1, ensure_ascii=False)
+        self.log(f"🧠 Auto-skill: pelajaran disimpan ke {os.path.basename(fname)}")
+        return fname
+
 # ================= PRESET CONTOH (executable) =================
 if __name__ == "__main__":
     # demo project-build: scaffold → implement → test
