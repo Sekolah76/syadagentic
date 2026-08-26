@@ -6,13 +6,13 @@ Pakai ini SEBELUM edit 9router DB, hermes config, memory, dll.
 """
 import shutil, datetime, os, sys, glob
 
-LOG = r"C:\Users\Arsyad\farm-arsenal\.backup-log.txt"
+LOG = r"~/.backup-log.txt"
 PROTECTED = [
-    r"C:\Users\Arsyad\AppData\Roaming\9router\db\data.sqlite",
-    r"C:\Users\Arsyad\AppData\Local\hermes\config.yaml",
-    r"C:\Users\Arsyad\AppData\Local\hermes\memories\MEMORY.md",
-    r"C:\Users\Arsyad\AppData\Local\hermes\memories\USER.md",
-    r"C:\Users\Arsyad\.ssh\gcp_agent",
+    r"~/AppData/Roaming/9router/db/data.sqlite",
+    r"~/AppData/Local/hermes/config.yaml",
+    r"~/AppData/Local/hermes/memories/MEMORY.md",
+    r"~/AppData/Local/hermes/memories/USER.md",
+    r"~/.ssh/ssh-key",
 ]
 
 def backup(path):

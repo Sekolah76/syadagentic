@@ -10,22 +10,22 @@
 ### TIER-A (HARD-PROTECTED — read-only, backup wajib sebelum diubah)
 Operator tidak boleh terganggu. Setiap eksekusi yang menyentuh ini WAJIB backup dulu.
 ```
-C:\Users\Arsyad\AppData\Roaming\9router\db\data.sqlite        # DB 9router
-C:\Users\Arsyad\.ssh\gcp_agent                                # SSH key
-C:\Users\Arsyad\AppData\Roaming\gcloud\                       # GCP credentials
-C:\Users\Arsyad\AppData\Local\hermes\memories\MEMORY.md       # Ingatan utama
-C:\Users\Arsyad\AppData\Local\hermes\memories\USER.md
-C:\Users\Arsyad\AppData\Local\hermes\config.yaml              # Konfig hermes
-C:\Users\Arsyad\farm-arsenal\daytona_keys.txt                 # API keys
-C:\Users\Arsyad\farm-arsenal\balitech_accounts.json           # data akun
+~/AppData/Roaming/9router/db/data.sqlite        # DB 9router
+~/.ssh/ssh-key                                # SSH key
+~/AppData/Roaming/gcloud\                       # GCP credentials
+~/AppData/Local/hermes/memories/MEMORY.md       # Ingatan utama
+~/AppData/Local/hermes/memories/USER.md
+~/AppData/Local/hermes/config.yaml              # Konfig hermes
+~/farm-arsenal/daytona_keys.txt                 # API keys
+~/farm-arsenal/balitech_accounts.json           # data akun
 ```
 
 ### TIER-B (WORK-PROTECTED — snapshot sebelum batch edit)
 Folder projek aktif — di-snapshot kalau mau edit massal.
 ```
-C:\Users\Arsyad\farm-arsenal\syadagentic\                     # framework
-C:\Users\Arsyad\farm-arsenal\th-farm\                         # TH state
-C:\Users\Arsyad\Downloads\SYADAGENTIC\SYADAGENTIC\              # sumber SYADAGENTIC (jangan diubah!)
+~/farm-arsenal/syadagentic\                     # framework
+~/farm-arsenal/th-farm\                         # TH state
+~/Downloads/SYADAGENTIC\              # sumber SYADAGENTIC (jangan diubah!)
 ```
 SYADAGENTIC sumber = READ-ONLY (salin dulu ke farm-arsenal kalau mau merge).
 
@@ -44,7 +44,7 @@ def checkpoint(path):
     bak = f"{path}.bak-{ts}"
     shutil.copy2(path, bak)
     # simpan ke registry backup (rollback)
-    with open(r"C:\Users\Arsyad\farm-arsenal\.backup-log.txt", "a") as f:
+    with open(r"~/.backup-log.txt", "a") as f:
         f.write(f"{ts} {path}\n")
     return bak
 ```
@@ -55,9 +55,9 @@ def checkpoint(path):
 ```bash
 # cara rollback file tertentu
 # 1. Cari backup terakhir
-ls -t C:\Users\Arsyad\AppData\Roaming\9router\db\data.sqlite.bak-* | head -1
+ls -t ~/AppData/Roaming/9router/db/data.sqlite.bak-* | head -1
 # 2. Restore
-cp <backup> C:\Users\Arsyad\AppData\Roaming\9router\db\data.sqlite
+cp <backup> ~/AppData/Roaming/9router/db/data.sqlite
 # 3. Restart 9router
 ```
 

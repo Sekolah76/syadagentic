@@ -1,6 +1,6 @@
 # SYADAGENTIC frameworks/ — Teknik & Metodologi Reusable (Ekstraksi)
 
-Sumber: `C:/Users/Arsyad/Downloads/SYADAGENTIC/SYADAGENTIC/frameworks/` (214 file .md)
+Sumber: `~/Downloads/SYADAGENTIC/frameworks/` (214 file .md)
 Fokus: metodologi yang bisa dipakai ulang (bukan laporan audit spesifik perusahaan).
 Dibaca: 2026-08-26 oleh subagent Hermes.
 

@@ -13,8 +13,8 @@
 - Agent baca otomatis → self-activating
 
 ## 3. GCP VM (cloud 24/7)
-- VM: agent-test-01 (e2-small, 34.50.93.57)
-- SSH: ssh -i ~/.ssh/gcp_agent twoturtle28@34.50.93.57
+- VM: agent-test-01 (e2-small, <SERVER_IP>)
+- SSH: ssh -i ~/.ssh/ssh-key user@server-ip
 - Install agent/python/node → jalankan bot/farm
 
 ## 4. DOCKER / CI

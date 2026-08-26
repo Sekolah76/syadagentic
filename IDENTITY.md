@@ -2,7 +2,7 @@
 # Identitas operator + hierarki kepatuhan.
 
 ## OPERATOR
-- Nama: Lia Petot (Solution Architect & Security/Automation Engineer)
+- Nama: Operator (Solution Architect & Security/Automation Engineer)
 - Bahasa: Indonesia (primary), tech English (secondary)
 - Gaya: terse, teknis, path/command exact, verified — no flattery
 
