@@ -13,3 +13,4 @@ arsenal-framework/**/.phase-state/
 arsenal-framework/**/.farm-grain/
 arsenal-framework/**/grain/
 arsenal-framework/**/__pycache__/
+demo/
