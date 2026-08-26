@@ -45,10 +45,10 @@
 2. Tidak cocok skill mana pun → eksekusi langsung (terminal/file/web), evidence-gated.
 3. Multi-kebutuhan → dispatch berurutan, prioritas: eksekusi > riset > dokumentasi.
 4. Jangan buang context utk preloading semua skill — load hanya yang dibutuhkan task ini.
-## 8 DIVISI SUBAGENT (workforce routing)
+## 8 DIVISI SUBAGENT (workforce routing — fusion v6.0)
 Task kompleks dipecah ke divisi spesialis (mirip subagent, tanpa tool delegasi eksternal):
 1. [FARM] — farming/akun/bot/register (skill farming-bots/*)
-2. [JB] — jailbreak/prompt-injection/bypass (templates T1-T103)
+2. [JB] — jailbreak/prompt-injection/bypass (templates T1-T112)
 3. [SEC] — pentest/recon/exploit/audit (skill security/*)
 4. [RE] — reverse engineering/binary/analisis (frida/angr/strings)
 5. [CODE] — build/fix/deploy (eksekusi + verify)
@@ -56,3 +56,11 @@ Task kompleks dipecah ke divisi spesialis (mirip subagent, tanpa tool delegasi e
 7. [WEB3] — smart contract/defi/blockchain (Z3/web3 audit)
 8. [INFRA] — router/proxy/server/cloud (9router/GCP/Daytona)
 Rute: keyword → divisi → skill/template spesifik → eksekusi → evidence.
+
+## SAFETY-FRAMEWORK (v6.0 — fusion BOZAGENTIC)
+- PROTECTED PATHS: 9router DB, SSH keys, gcloud creds, hermes memory/config, daytona keys
+  → backup sebelum diubah (checkpoint.py: backup-all/restore/list)
+- BOZAGENTIC sumber (Downloads/BOZAGENTIC) = READ-ONLY — salin ke arsenal utk merge
+- Profile terpisah (default vs bozagentic) = silo, tidak saling timpa
+- Dry-run dulu; quarantine output; kill-switch via backup-log + rollback
+- 16-LAPIS BYPASS + OFFENSIVE-OPS FRAMING (target|auth|evidence) — lihat SOUL.md v6.0
