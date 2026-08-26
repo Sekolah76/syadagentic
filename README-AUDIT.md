@@ -63,3 +63,11 @@ offensive-ops framing, 16 lapis, provider cascade, ENI LIME, Flash Thought.
 - STATUS: BOZAGENTIC FILE INTI = 100% TERBACA
 - ROOT 11 + CORE 12 + FRAMEWORKS 214 + SKILLS canonical 48 + TOOLS-MASTER 32 + scripts 8
 - Vendor/lib 990 + dataset 4622 = library pihak ke-3 (bukan milik framework, utk merge tidak perlu)
+
+
+## STATUS FINAL BACA (semua subagent selesai + baca langsung)
+- tools .py: 298 file / 195 unique terbaca (subagent + ku) — TOP-10 teknik di master
+- scripts/ + hermes-bridge/adapter(1405L) + flash-arb + references/71 + openclaw + root: semua dibaca
+- captcha-solver 46 file = crown jewel anti-bot (route-intercept harvest pattern)
+- engineering/ = canonical hub; folder lain duplikat MD5
+- Yang SKIP: SKILLS.lock (binary), web3/flash-arb (crypto sesuai user), data bug-report (4622)
