@@ -1,0 +1,36 @@
+system:
+  target: ""
+  revision: ""
+  deployment_profile: ""
+  scope_source: ""
+components: []
+assets:
+  - id: A-001
+    asset: ""
+    invariant: ""
+    owners: []
+trust_boundaries:
+  - id: TB-001
+    from: ""
+    to: ""
+    authority_or_value_crossed: ""
+    evidence: []
+entry_points:
+  - id: EP-001
+    component: ""
+    interface: ""
+    attacker_class: ""
+    required_capabilities: []
+    attacker_controlled_fields: []
+    guards: []
+    reachable_sinks: []
+    production_relevance: confirmed|likely|unknown|non_production
+    evidence: []
+    audit_priority: critical|high|medium|low
+    priority_rationale: ""
+blind_spots: []
+hunter_tasks:
+  - id: HT-001
+    hypothesis: ""
+    target_surface_ids: []
+    evidence_needed: []

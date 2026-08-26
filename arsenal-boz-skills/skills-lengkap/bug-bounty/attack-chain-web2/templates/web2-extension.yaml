@@ -1,0 +1,22 @@
+web2_context:
+  accounts:
+    attacker_account: ""
+    victim_account: ""
+    privileged_account: ""
+  tenant_context_per_step: []
+  session_and_tokens:
+    - artifact: ""
+      purpose: ""
+      audience: ""
+      expiry: ""
+      binding: ""
+      rotation_or_revocation: ""
+  trust_boundaries_crossed: []
+  victim_interaction:
+    required: false
+    action: ""
+    realism: ""
+  cloud_context:
+    principal: ""
+    exact_permissions: []
+  deployment_assumptions: []

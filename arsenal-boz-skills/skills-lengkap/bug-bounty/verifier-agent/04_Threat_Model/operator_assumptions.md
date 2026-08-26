@@ -1,0 +1,1 @@
+Check operator assumptions.

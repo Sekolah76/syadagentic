@@ -1,0 +1,37 @@
+analysis_id: RCA-001
+candidates: []
+verdict: ""
+root_causes:
+  - id: RC-001
+    title: ""
+    violated_invariant: ""
+    earliest_incorrect_operation: ""
+    vulnerable_abstraction:
+      component: ""
+      symbols: []
+    attacker_controlled_dimension: ""
+    enabling_conditions: []
+    propagation_path: []
+    symptoms: []
+    security_primitives: []
+    evidence: []
+    inferences: []
+    proposed_fix_boundary: ""
+    fingerprint:
+      invariant: ""
+      operation: ""
+      abstraction: ""
+      attacker_control: ""
+      primitive: ""
+clusters:
+  - root_cause_id: RC-001
+    candidate_ids: []
+    patch_equivalence_result: ""
+duplicate_risk:
+  level: high|medium|low|unknown
+  rationale: ""
+  evidence: []
+open_questions: []
+handoff:
+  variant_discovery_queries: []
+  triage_notes: []

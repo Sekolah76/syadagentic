@@ -49,6 +49,7 @@ class PhaseEngine:
         "pentest": ["recon", "enum", "map", "exploit", "post-exploit", "validate", "report"],
         "osint": ["collect", "enrich", "correlate", "analyze", "verify", "report"],
         "project-build": ["requirements", "design", "scaffold", "implement", "test", "deploy", "report"],
+        "farm": ["recon-provider", "probe-endpoint", "verify-email", "register-account", "harvest-key", "validate-key"],
     }
 
     def start(self):

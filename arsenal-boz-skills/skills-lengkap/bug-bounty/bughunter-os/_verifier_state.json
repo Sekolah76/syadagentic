@@ -1,0 +1,41 @@
+{
+  "verifier_config": {
+    "enabled": true,
+    "baseurl": "https://api.xah.io/v1",
+    "model": "vpsnodelab/claude-opus-4-8",
+    "max_tokens": 500,
+    "temperature": 0.1,
+    "fallback_models": [
+      "openai/minimax-m3"
+    ]
+  },
+  "session_results": [
+    {
+      "round": 1,
+      "input_finding": "BLS key exfil via http keymanager (initial)",
+      "verdict": "NEEDS_MORE_EVIDENCE",
+      "severity_assessment": "Medium",
+      "key_issues": [
+        "PoC doesn't show actual Charon request",
+        "TLS downgrade doesn't work",
+        "Threshold required for full key",
+        "Operator config is not security boundary"
+      ],
+      "tokens": 3104
+    },
+    {
+      "round": 2,
+      "input_finding": "BLS key exfil via http keymanager (improved with PoC details)",
+      "verdict": "NEEDS_MORE_EVIDENCE",
+      "severity_assessment": "Medium (borderline)",
+      "key_issues": [
+        "Still no actual Charon test",
+        "No captured network request",
+        "No threshold demonstration"
+      ],
+      "tokens": 3973
+    }
+  ],
+  "decision": "DO NOT SUBMIT \u2014 bug is real but severity is overstated; verifier (external) agrees with self-critique",
+  "saved_at": "2026-07-19"
+}

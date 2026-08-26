@@ -1,0 +1,1 @@
+Check protocol invariants.

@@ -1,0 +1,29 @@
+analysis_id: VAR-001
+root_cause_id: ""
+revision: ""
+semantic_signature:
+  violated_invariant: ""
+  incorrect_operation: ""
+  attacker_control: ""
+  source_sink_relation: ""
+search_families: []
+candidates:
+  - id: V-001
+    location: ""
+    relation_to_original: ""
+    reachability: ""
+    equivalent_invariant_failure: ""
+    compensating_guards: []
+    classification: confirmed_variant|likely_variant|structural_match_only|not_a_variant|same_manifestation
+    evidence: []
+    verifier_test:
+      setup: []
+      trigger: []
+      expected_vulnerable_result: ""
+      expected_safe_result: ""
+clustering_handoff: []
+coverage:
+  searched_areas: []
+  excluded_areas: []
+  blind_spots: []
+stop_reason: ""

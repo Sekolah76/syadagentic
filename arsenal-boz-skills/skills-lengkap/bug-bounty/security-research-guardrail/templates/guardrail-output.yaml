@@ -1,0 +1,111 @@
+guardrail:
+  mode: PRE_ACTION | REASONING_AUDIT | POST_VERIFICATION | PRE_SUBMISSION
+  verdict: PASS | PASS_WITH_LIMITS | HOLD_MISSING_EVIDENCE | BLOCK_SCOPE_UNKNOWN | BLOCK_UNSAFE_ACTION | BLOCK_EVIDENCE_INTEGRITY | BLOCK_OVERCLAIM | BLOCK_PRIVACY_OR_SECRET_RISK | RETURN_TO_HUNTER | RETURN_TO_TRIAGE | RETURN_TO_VERIFIER | READY_FOR_REPORT
+  decision_confidence: 0
+  timestamp: ""
+
+context:
+  target: ""
+  asset: ""
+  repository: ""
+  commit_or_version: ""
+  environment: ""
+  operator_objective: ""
+
+scope:
+  status: CONFIRMED | PARTIAL | CONFLICTING | UNKNOWN | OUT_OF_SCOPE
+  authoritative_source: ""
+  allowed_assets: []
+  exclusions: []
+  automation_or_rate_limits: []
+  unresolved_questions: []
+
+action_review:
+  proposed_action: ""
+  risk_class: R0_READ_ONLY | R1_LOCAL_ISOLATED | R2_LOW_IMPACT_REMOTE | R3_STATEFUL_OR_RESOURCE_AFFECTING | R4_DESTRUCTIVE_OR_THIRD_PARTY_RISK
+  least_impact_alternative: ""
+  request_event_limit: ""
+  resource_ceiling: ""
+  stop_conditions: []
+  cleanup_or_rollback: []
+  allowed_actions: []
+  forbidden_actions: []
+
+claim_ledger:
+  - id: C-001
+    claim: ""
+    type: OBSERVED | SOURCE_FACT | INFERENCE | ASSUMPTION | HYPOTHESIS | UNKNOWN | CONTRADICTED
+    evidence_ids: []
+    applicability: ""
+    confidence: 0
+    counter_evidence: []
+    next_test: ""
+
+claim_chain:
+  attacker_capability:
+    status: PROVEN | PARTIAL | UNPROVEN | CONTRADICTED
+    evidence_ids: []
+  reachable_input:
+    status: PROVEN | PARTIAL | UNPROVEN | CONTRADICTED
+    evidence_ids: []
+  attacker_control:
+    status: PROVEN | PARTIAL | UNPROVEN | CONTRADICTED
+    evidence_ids: []
+  vulnerable_operation:
+    status: PROVEN | PARTIAL | UNPROVEN | CONTRADICTED
+    evidence_ids: []
+  security_property_violation:
+    status: PROVEN | PARTIAL | UNPROVEN | CONTRADICTED
+    evidence_ids: []
+  measurable_impact:
+    status: PROVEN | PARTIAL | UNPROVEN | CONTRADICTED
+    evidence_ids: []
+
+evidence_audit:
+  reproduction_class: NOT_RUN | FAILED | ARTIFACT_SUSPECTED | SINGLE_RUN | REPEATABLE_LOCAL | REPEATABLE_INTEGRATION | REPEATABLE_SUPPORTED_ENV | END_TO_END
+  raw_evidence_available: false
+  control_run_available: false
+  clean_state_rerun_available: false
+  failed_runs_preserved: false
+  provenance_issues: []
+  environmental_artifacts_checked: []
+  evidence_manifest:
+    - id: E-001
+      type: log | trace | test | request | response | state_diff | packet | screenshot | source
+      timestamp: ""
+      collector: ""
+      command_or_request: ""
+      input_hash: ""
+      output_location: ""
+      output_hash: ""
+      notes: ""
+
+impact_alignment:
+  claimed_impact: ""
+  evidence_supported_impact: ""
+  claimed_severity: ""
+  evidence_supported_severity: ""
+  overclaims: []
+  limitations: []
+
+privacy_and_secrets:
+  active_secrets_present: false
+  personal_or_third_party_data_present: false
+  redactions_required: []
+  storage_constraints: []
+
+mandatory_blockers: []
+passed_gates: []
+failed_gates: []
+
+handoff:
+  next_owner: HUNTER | TRIAGE | VERIFIER | REPORT_WRITER | OPERATOR | NONE
+  minimum_next_evidence: []
+  approved_claims: []
+  prohibited_claims: []
+  execution_constraints: []
+
+audit_trail:
+  - decision: ""
+    reason: ""
+    evidence_ids: []

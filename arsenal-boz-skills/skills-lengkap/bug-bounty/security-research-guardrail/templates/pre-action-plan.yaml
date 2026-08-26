@@ -1,0 +1,18 @@
+pre_action_plan:
+  hypothesis: ""
+  target_and_scope_source: ""
+  environment: ""
+  proposed_test: ""
+  risk_class: ""
+  why_lower_risk_methods_are_insufficient: ""
+  synthetic_or_owned_test_data: ""
+  maximum_requests_or_events: 0
+  timeout_seconds: 0
+  cpu_memory_disk_limits: ""
+  expected_normal_result: ""
+  expected_vulnerable_result: ""
+  control_test: ""
+  monitoring: []
+  stop_conditions: []
+  cleanup_or_rollback: []
+  evidence_to_capture: []

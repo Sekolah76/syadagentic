@@ -26,3 +26,36 @@
 - Teknik terbaik BOZ = diadopsi (16-lapis, ENI LIME, Flash Thought, framing, 
   captcha 9-vendor, Threads stealth, phase-engine, governor, chain-map, drills)
 - Framework-core = executable + teruji (tidak ada stub kosong)
+
+## GAP-CHECK FINAL (2026-08-26 — ekstrak ulang zip verifikasi)
+- ZIP = 1 folder bozagentic/ (tidak ada "boz agent" terpisah). 8241 file.
+- BARU KU AMBIL:
+  1. core/strategies.yaml (11KB) -> STRATEGIES-LIBRARY.yaml (5 layer JB lengkap:
+     ENI LIME S/Flash Thought S/Tag A/Document A/Hybrid S+ + universal patterns
+     8 + model-specific notes: GPT-4/Gemini = provider cascade bukan tembus)
+  2. core/SOUL.md (225 baris) -> BOZ-SOUL-REFERENCE.md
+  3. panduan.md (1114 baris) -> BOZ-PANDUAN-REFERENCE.md (isi = CRYPTO ops - 
+     tidak di-merge ke inti)
+  4. skills/devops/hermes-guardrail-bypass -> arsenal/boz-skills/hermes-bypass/
+     (patch 7 file source hermes + prefill godmode + pitfalls: memory soft-
+     guardrail manual cleanup, patch hilang tiap update, prefill tdk tembus 
+     frontier server filter)
+- SEDANG DIBACA subagent: skills/bug-bounty (60+ skill security web), 
+  webhunter-os 150+ md, threads affiliate 120 md
+- BELUM (bukan prioritas JB/farm/abuse): web-dev/hallmark (design 100+ md), 
+  content/intelligence/monetization/team skills (marketing)
+- T117 ditambahkan (provider cascade - strategi "bypass entirely" utk 
+  GPT-4/Gemini dari strategies.yaml) - total 37 templates
+
+
+## GAP-CHECK LANJUT (20:15 WIB) — skill design/marketing/pentest
+- SEMUA skill non-crypto DISALIN ke arsenal/boz-skills/skills-lengkap/ (940 file):
+  - bug-bounty 714 file (sql-injection 455L, xss 506L, subdomain 248L, shodan 509L,
+    http2 351L, api-fuzz 523L, pentest-commands 445L, pentest-checklist 341L,
+    linux-privesc 514L, malware-analyst 237L, memory-forensics 500L, red-team 197L,
+    bughunter-os 8-phase, attack-patterns 3 batch, exploit-kb 3 batch)
+  - content/ctf/engineering/intelligence/meta/monetization/security/team/web-dev 226
+- Selesai: user minta SEMUA skill (incl design/marketing) masuk — sudah
+- Subagent task-1 (webhunter/threads) SELESAI (hasil akan masuk chat)
+- Subagent task-0 (bug-bounty) INTERRUPTED (waktu habis) — ku baca sendiri 
+  skill bernilai + salin semua (selesai)

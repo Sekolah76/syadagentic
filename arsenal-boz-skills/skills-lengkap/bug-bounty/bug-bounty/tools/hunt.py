@@ -1,0 +1,613 @@
+#!/usr/bin/env python3
+"""
+Bug Bounty Hunt Orchestrator
+Main script that chains target selection, recon, scanning, and reporting.
+
+Usage:
+    python3 hunt.py                         # Full pipeline: select targets + hunt
+    python3 hunt.py --target <domain>       # Hunt a specific target
+    python3 hunt.py --quick --target <domain>  # Quick scan mode
+    python3 hunt.py --recon-only --target <domain>  # Only run recon
+    python3 hunt.py --scan-only --target <domain>   # Only run vuln scanner (requires prior recon)
+    python3 hunt.py --status                # Show current progress
+    python3 hunt.py --setup-wordlists       # Download common wordlists
+    python3 hunt.py --cve-hunt --target <domain>   # Run CVE hunter
+    python3 hunt.py --zero-day --target <domain>   # Run zero-day fuzzer
+"""
+
+import argparse
+import itertools
+import ipaddress
+import json
+import os
+import signal
+import subprocess
+import sys
+from datetime import datetime
+
+# Auth session is bundled into the package; importable when run as a script
+# because tools/__init__.py is present.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from tools.auth_session import AuthSession, add_cli_args, session_from_args  # noqa: E402
+from tools.banner import print_banner  # noqa: E402
+
+# Process-wide AuthSession. Populated in main() once flags are parsed and
+# read by run_recon / run_vuln_scan so every subprocess inherits the same
+# session env vars. (Plain assignment — kept 3.9-compatible; the codebase
+# elsewhere uses 3.10+ union syntax but hunt.py historically did not.)
+_AUTH_SESSION = None
+
+
+def _normalize_argv(argv):
+    if not argv:
+        return argv
+    if argv[0] in {"help", "-help"}:
+        return ["--help", *argv[1:]]
+    return ["--help" if item == "-help" else item for item in argv]
+
+
+# ── Target type detection (FQDN / single IP / CIDR) ──────────────────────────
+
+MAX_CIDR_HOSTS = 254
+
+def detect_target_type(target: str) -> str:
+    """Return 'list', 'cidr', 'ip', or 'domain'.
+
+    'list' = path to a readable file of pre-resolved hosts (one per line).
+    Used for programs without wildcard scope where subdomain enum is wasted.
+    """
+    if os.path.isfile(target):
+        return "list"
+    try:
+        net = ipaddress.ip_network(target, strict=False)
+        return "cidr" if net.num_addresses > 1 else "ip"
+    except ValueError:
+        return "domain"
+
+
+def expand_cidr(cidr: str, max_hosts: int = MAX_CIDR_HOSTS) -> list[str]:
+    """Expand CIDR to host IPs, rejecting ranges larger than max_hosts."""
+    net = ipaddress.ip_network(cidr, strict=False)
+    hosts = [str(host) for host in itertools.islice(net.hosts(), max_hosts + 1)]
+
+    if len(hosts) > max_hosts:
+        raise ValueError(
+            f"CIDR {cidr} expands beyond the supported limit of {max_hosts} hosts; "
+            "use /24 or smaller ranges"
+        )
+
+    if not hosts:
+        return [str(net.network_address)]
+    return hosts
+
+TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(TOOLS_DIR)
+TARGETS_DIR = os.path.join(BASE_DIR, "targets")
+RECON_DIR = os.path.join(BASE_DIR, "recon")
+FINDINGS_DIR = os.path.join(BASE_DIR, "findings")
+REPORTS_DIR = os.path.join(BASE_DIR, "reports")
+WORDLIST_DIR = os.path.join(BASE_DIR, "wordlists")
+
+# Colors
+GREEN = "\033[0;32m"
+RED = "\033[0;31m"
+YELLOW = "\033[1;33m"
+CYAN = "\033[0;36m"
+BOLD = "\033[1m"
+NC = "\033[0m"
+
+
+def log(level, msg):
+    colors = {"ok": GREEN, "err": RED, "warn": YELLOW, "info": CYAN}
+    symbols = {"ok": "+", "err": "-", "warn": "!", "info": "*"}
+    print(f"{colors.get(level, '')}{BOLD}[{symbols.get(level, '*')}]{NC} {msg}")
+
+
+def run_cmd(cmd, cwd=None, timeout=600):
+    """Run a shell command and return (success, output).
+
+    Uses process groups (os.setsid) so that on timeout the entire child tree
+    is killed via os.killpg, preventing orphan processes from accumulating
+    during long-running hunts.
+    """
+    proc = None
+    try:
+        proc = subprocess.Popen(
+            cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            text=True, cwd=cwd, preexec_fn=os.setsid,
+        )
+        stdout, _ = proc.communicate(timeout=timeout)
+        return proc.returncode == 0, stdout or ""
+    except subprocess.TimeoutExpired:
+        if proc is not None:
+            try:
+                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+            except Exception:
+                proc.kill()
+            proc.wait()
+        return False, "Command timed out"
+    except Exception as e:
+        if proc is not None:
+            try:
+                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+            except Exception:
+                proc.kill()
+            proc.wait()
+        return False, str(e)
+
+
+def check_tools():
+    """Check which tools are installed."""
+    tools = ["subfinder", "httpx", "nuclei", "ffuf", "nmap", "amass", "gau", "dalfox", "subjack"]
+    installed = []
+    missing = []
+
+    for tool in tools:
+        success, _ = run_cmd(f"command -v {tool}")
+        if success:
+            installed.append(tool)
+        else:
+            missing.append(tool)
+
+    return installed, missing
+
+
+def setup_wordlists():
+    """Download common wordlists for fuzzing."""
+    os.makedirs(WORDLIST_DIR, exist_ok=True)
+
+    wordlists = {
+        "common.txt": "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/common.txt",
+        "raft-medium-dirs.txt": "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/raft-medium-directories.txt",
+        "api-endpoints.txt": "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/api/api-endpoints.txt",
+        "params.txt": "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/burp-parameter-names.txt",
+    }
+
+    for name, url in wordlists.items():
+        filepath = os.path.join(WORDLIST_DIR, name)
+        if os.path.exists(filepath):
+            log("ok", f"Wordlist exists: {name}")
+            continue
+
+        log("info", f"Downloading {name}...")
+        success, output = run_cmd(f'curl -sL "{url}" -o "{filepath}"')
+        if success and os.path.getsize(filepath) > 100:
+            lines = sum(1 for _ in open(filepath))
+            log("ok", f"Downloaded {name} ({lines} entries)")
+        else:
+            log("err", f"Failed to download {name}")
+
+    log("ok", f"Wordlists ready in {WORDLIST_DIR}")
+
+
+def select_targets(top_n=10):
+    """Run target selector."""
+    log("info", "Running target selector...")
+    script = os.path.join(TOOLS_DIR, "target_selector.py")
+    success, output = run_cmd(
+        f'python3 "{script}" --top {top_n}',
+        timeout=60
+    )
+    print(output)
+
+    if not success:
+        log("err", "Target selection failed")
+        return []
+
+    # Load selected targets
+    targets_file = os.path.join(TARGETS_DIR, "selected_targets.json")
+    if os.path.exists(targets_file):
+        with open(targets_file) as f:
+            data = json.load(f)
+        return data.get("targets", [])
+
+    return []
+
+
+def run_recon(domain, quick=False, scope_lock=False):
+    """Run recon engine on a domain, single IP, or CIDR range."""
+    log("info", f"Running recon on {domain}...")
+    script = os.path.join(TOOLS_DIR, "recon_engine.sh")
+    quick_flag = "--quick" if quick else ""
+
+    # Detect target type and pass to recon_engine.sh
+    target_type = detect_target_type(domain)
+    if target_type in ("ip", "cidr", "list"):
+        scope_lock = True  # IPs/CIDRs/pre-resolved lists never need subdomain enum
+        log("info", f"Target type: {target_type.upper()} — subdomain enum skipped")
+        if target_type == "cidr":
+            try:
+                hosts = expand_cidr(domain)
+            except ValueError as exc:
+                log("err", str(exc))
+                return False
+            log("info", f"CIDR {domain} → {len(hosts)} host(s) to scan")
+        elif target_type == "list":
+            try:
+                with open(domain, "r", encoding="utf-8") as f:
+                    n = sum(
+                        1 for line in f
+                        if line.strip() and not line.lstrip().startswith("#")
+                    )
+            except OSError as exc:
+                log("err", f"Could not read domain list {domain}: {exc}")
+                return False
+            if n == 0:
+                log("err", f"Domain list {domain} has no usable entries")
+                return False
+            log("info", f"Domain list {domain} → {n} host(s) to scan")
+
+    scope_env  = "SCOPE_LOCK=1 " if scope_lock else ""
+    type_env   = f'TARGET_TYPE="{target_type}" '
+
+    # Inject auth env vars (if any) so the bash helper picks them up.
+    child_env = os.environ.copy()
+    if _AUTH_SESSION is not None:
+        _AUTH_SESSION.export_to_env(child_env)
+        if not _AUTH_SESSION.is_empty():
+            log("info", _AUTH_SESSION.describe())
+
+    # Run with live output
+    try:
+        proc = subprocess.Popen(
+            f'{scope_env}{type_env}bash "{script}" "{domain}" {quick_flag}',
+            shell=True, cwd=BASE_DIR, env=child_env,
+        )
+        proc.wait(timeout=3600)  # 60 min timeout (CIDR ranges can be large)
+        return proc.returncode == 0
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        log("err", f"Recon timed out for {domain}")
+        return False
+
+
+def check_cicd_results(domain):
+    """Check and surface CI/CD scan results from recon Phase 8."""
+    cicd_dir = os.path.join(RECON_DIR, domain, "cicd")
+    if not os.path.isdir(cicd_dir):
+        return
+    for root, dirs, files in os.walk(cicd_dir):
+        for f in files:
+            if f == "summary.txt":
+                summary_path = os.path.join(root, f)
+                with open(summary_path) as sf:
+                    content = sf.read()
+                if "Total findings: 0" not in content:
+                    log("warn", f"CI/CD findings detected — review: {summary_path}")
+
+
+def run_vuln_scan(domain, quick=False):
+    """Run vulnerability scanner on recon results."""
+    recon_dir = os.path.join(RECON_DIR, domain)
+    if not os.path.isdir(recon_dir):
+        log("err", f"No recon data found for {domain}. Run recon first.")
+        return False
+
+    log("info", f"Running vulnerability scanner on {domain}...")
+    script = os.path.join(TOOLS_DIR, "vuln_scanner.sh")
+    quick_flag = "--quick" if quick else ""
+
+    child_env = os.environ.copy()
+    if _AUTH_SESSION is not None:
+        _AUTH_SESSION.export_to_env(child_env)
+
+    try:
+        proc = subprocess.Popen(
+            f'bash "{script}" "{recon_dir}" {quick_flag}',
+            shell=True, cwd=BASE_DIR, env=child_env,
+        )
+        proc.wait(timeout=1800)
+        return proc.returncode == 0
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        log("err", f"Vulnerability scan timed out for {domain}")
+        return False
+
+
+def generate_reports(domain):
+    """Generate reports for findings."""
+    log("warn", "report_generator.py has been removed. Use /report in Claude Code to generate reports.")
+    return 0
+
+
+def show_status():
+    """Show current pipeline status."""
+    print(f"\n{BOLD}{'='*50}{NC}")
+    print(f"{BOLD}  Bug Bounty Pipeline Status{NC}")
+    print(f"{BOLD}{'='*50}{NC}\n")
+
+    # Check tools
+    installed, missing = check_tools()
+    print(f"  Tools: {len(installed)}/{len(installed)+len(missing)} installed")
+    if missing:
+        print(f"  Missing: {', '.join(missing)}")
+
+    # Check targets
+    targets_file = os.path.join(TARGETS_DIR, "selected_targets.json")
+    if os.path.exists(targets_file):
+        with open(targets_file) as f:
+            data = json.load(f)
+        print(f"  Selected targets: {data.get('total_targets', 0)}")
+    else:
+        print("  Selected targets: None (run target selector first)")
+
+    # Check recon results
+    if os.path.isdir(RECON_DIR):
+        recon_targets = [d for d in os.listdir(RECON_DIR) if os.path.isdir(os.path.join(RECON_DIR, d))]
+        print(f"  Recon completed: {len(recon_targets)} targets")
+        for t in recon_targets:
+            subs_file = os.path.join(RECON_DIR, t, "subdomains", "all.txt")
+            live_file = os.path.join(RECON_DIR, t, "live", "urls.txt")
+            subs = sum(1 for _ in open(subs_file)) if os.path.exists(subs_file) else 0
+            live = sum(1 for _ in open(live_file)) if os.path.exists(live_file) else 0
+            print(f"    - {t}: {subs} subdomains, {live} live hosts")
+
+    # Check findings
+    if os.path.isdir(FINDINGS_DIR):
+        finding_targets = [d for d in os.listdir(FINDINGS_DIR) if os.path.isdir(os.path.join(FINDINGS_DIR, d))]
+        print(f"  Scanned targets: {len(finding_targets)}")
+        for t in finding_targets:
+            summary = os.path.join(FINDINGS_DIR, t, "summary.txt")
+            if os.path.exists(summary):
+                with open(summary) as f:
+                    content = f.read()
+                total_match = content.split("TOTAL FINDINGS:")
+                if len(total_match) > 1:
+                    total = total_match[1].strip().split("\n")[0].strip()
+                    print(f"    - {t}: {total} findings")
+
+    # Check reports
+    if os.path.isdir(REPORTS_DIR):
+        report_targets = [d for d in os.listdir(REPORTS_DIR) if os.path.isdir(os.path.join(REPORTS_DIR, d))]
+        print(f"  Reports generated: {len(report_targets)} targets")
+        for t in report_targets:
+            reports = [f for f in os.listdir(os.path.join(REPORTS_DIR, t)) if f.endswith(".md") and f != "SUMMARY.md"]
+            print(f"    - {t}: {len(reports)} reports")
+
+    print(f"\n{'='*50}\n")
+
+
+def print_dashboard(results):
+    """Print final summary dashboard."""
+    print(f"\n{BOLD}{'='*60}{NC}")
+    print(f"{BOLD}  HUNT COMPLETE — Summary Dashboard{NC}")
+    print(f"{BOLD}{'='*60}{NC}\n")
+    print(f"  Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+
+    total_findings = 0
+    total_reports = 0
+
+    for r in results:
+        status_icon = f"{GREEN}OK{NC}" if r["success"] else f"{RED}FAIL{NC}"
+        print(f"  [{status_icon}] {r['domain']}")
+        print(f"       Recon: {'Done' if r.get('recon') else 'Skipped'} | "
+              f"Scan: {'Done' if r.get('scan') else 'Skipped'} | "
+              f"Reports: {r.get('reports', 0)}")
+        total_findings += r.get("findings", 0)
+        total_reports += r.get("reports", 0)
+
+    print(f"\n  Total reports generated: {total_reports}")
+    print(f"\n  Reports directory: {REPORTS_DIR}/")
+    print(f"\n{'='*60}")
+
+    if total_reports > 0:
+        print(f"\n  {YELLOW}Next steps:{NC}")
+        print("  1. Review each report in the reports/ directory")
+        print("  2. Manually verify findings before submitting")
+        print("  3. Add PoC screenshots where applicable")
+        print("  4. Submit via HackerOne program pages")
+        print(f"\n{'='*60}\n")
+
+
+def run_cve_hunt(domain):
+    """Run CVE hunter on a target."""
+    log("warn", "cve_hunter.py has been removed. Use /intel in Claude Code for CVE intelligence.")
+    return False
+
+
+def run_zero_day_fuzzer(domain, deep=False):
+    """Run zero-day fuzzer on a target."""
+    log("info", f"Running zero-day fuzzer on {domain}...")
+    script = os.path.join(TOOLS_DIR, "zero_day_fuzzer.py")
+    deep_flag = "--deep" if deep else ""
+
+    # Check if we have recon data with live URLs
+    recon_dir = os.path.join(RECON_DIR, domain)
+    if os.path.isdir(recon_dir):
+        cmd = f'python3 "{script}" "https://{domain}" --recon-dir "{recon_dir}" {deep_flag}'
+    else:
+        cmd = f'python3 "{script}" "https://{domain}" {deep_flag}'
+
+    try:
+        proc = subprocess.Popen(cmd, shell=True, cwd=BASE_DIR)
+        proc.wait(timeout=900)
+        return proc.returncode == 0
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        log("err", f"Zero-day fuzzer timed out for {domain}")
+        return False
+
+
+def hunt_target(domain, quick=False, recon_only=False, scan_only=False, cve_hunt=False, zero_day=False):
+    """Run the full hunt pipeline on a single target."""
+    result = {"domain": domain, "success": True, "recon": False, "scan": False, "reports": 0}
+
+    if not scan_only:
+        result["recon"] = run_recon(domain, quick=quick)
+        if not result["recon"]:
+            log("warn", f"Recon had issues for {domain}, continuing anyway...")
+
+    if recon_only:
+        return result
+
+    check_cicd_results(domain)
+    result["scan"] = run_vuln_scan(domain, quick=quick)
+
+    # CVE hunting (only when explicitly requested)
+    if cve_hunt:
+        run_cve_hunt(domain)
+
+    # Zero-day fuzzing (disabled by default — high false positive rate)
+    if zero_day:
+        log("warn", "Zero-day fuzzer enabled — results require manual verification")
+        run_zero_day_fuzzer(domain, deep=not quick)
+
+    result["reports"] = generate_reports(domain)
+
+    return result
+
+
+def main():
+    argv = _normalize_argv(sys.argv[1:])
+    parser = argparse.ArgumentParser(
+        description="Bug Bounty Hunt Orchestrator",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python3 hunt.py                            Full pipeline (select + hunt)
+  python3 hunt.py --target example.com       Hunt specific target
+  python3 hunt.py --quick --target example.com  Quick scan
+  python3 hunt.py --status                   Show progress
+  python3 hunt.py --setup-wordlists          Download wordlists
+        """
+    )
+    parser.add_argument("--target", type=str, help="Target: FQDN, IP, or CIDR (e.g. example.com, 192.168.1.1, 10.0.0.0/24)")
+    parser.add_argument("--quick", action="store_true", help="Quick scan mode (fewer checks)")
+    parser.add_argument("--recon-only", action="store_true", help="Only run reconnaissance")
+    parser.add_argument("--scan-only", action="store_true", help="Only run vulnerability scanner")
+    parser.add_argument("--report-only", action="store_true", help="Only generate reports")
+    parser.add_argument("--status", action="store_true", help="Show pipeline status")
+    parser.add_argument("--setup-wordlists", action="store_true", help="Download wordlists")
+    parser.add_argument("--cve-hunt", action="store_true", help="Run CVE hunter")
+    parser.add_argument("--zero-day", action="store_true", help="Run zero-day fuzzer")
+    parser.add_argument("--select-targets", action="store_true", help="Only run target selection")
+    parser.add_argument("--top", type=int, default=10, help="Number of targets to select")
+    parser.add_argument("--no-banner", action="store_true",
+                        help="Suppress the startup banner (useful for CI / piped output)")
+    add_cli_args(parser)
+    args = parser.parse_args(argv)
+
+    # Build the auth session once. It propagates to every subprocess via
+    # BBHUNT_AUTH_HEADERS / BBHUNT_SESSION_ID env vars (set per-call so the
+    # session_id is consistent across recon, scan, and audit log entries).
+    global _AUTH_SESSION
+    _AUTH_SESSION = session_from_args(args)
+
+    # Suppress banner on --status / --setup-wordlists (utility paths that
+    # shouldn't print a splash) and when explicitly disabled.
+    _banner_suppressed = args.no_banner or args.status or args.setup_wordlists
+    if args.no_banner:
+        os.environ["BBHUNT_NO_BANNER"] = "1"
+    if not _banner_suppressed:
+        print_banner(
+            "Bug Bounty Automation Pipeline",
+            target=args.target or "(target selector)",
+            steps=[
+                ("Recon",    "subdomain enum, URL crawl, tech fingerprint, CVE sweep"),
+                ("Hunt",     "XSS · SQLi · SSRF · IDOR · auth bypass · LLM probes"),
+                ("Validate", "7-Question Gate · 4-gate checklist · kill weak findings"),
+                ("Report",   "H1/Bugcrowd/Intigriti template · CVSS 3.1 · PoC + repro"),
+            ],
+        )
+
+    # Status check
+    if args.status:
+        show_status()
+        return
+
+    # Setup wordlists
+    if args.setup_wordlists:
+        setup_wordlists()
+        return
+
+    if not any((
+        args.target,
+        args.recon_only,
+        args.scan_only,
+        args.report_only,
+        args.cve_hunt,
+        args.zero_day,
+        args.select_targets,
+    )):
+        print("\nQuick start:")
+        print("  python3 tools/hunt.py --target target.com")
+        print("  python3 tools/hunt.py --scan-only --target target.com")
+        print("  python3 tools/hunt.py --status")
+
+    # Check tools
+    installed, missing = check_tools()
+    log("info", f"Tools: {len(installed)}/{len(installed)+len(missing)} installed")
+    if missing:
+        log("warn", f"Missing tools: {', '.join(missing)}")
+        log("warn", "Run: bash tools/install_tools.sh")
+
+    # Target selection only
+    if args.select_targets:
+        select_targets(top_n=args.top)
+        return
+
+    # Report only
+    if args.report_only:
+        if args.target:
+            generate_reports(args.target)
+        else:
+            if os.path.isdir(FINDINGS_DIR):
+                for d in os.listdir(FINDINGS_DIR):
+                    if os.path.isdir(os.path.join(FINDINGS_DIR, d)):
+                        generate_reports(d)
+        return
+
+    # Hunt specific target
+    if args.target:
+        log("info", f"Hunting target: {args.target}")
+
+        # Setup wordlists if missing
+        if not os.path.exists(os.path.join(WORDLIST_DIR, "common.txt")):
+            setup_wordlists()
+
+        result = hunt_target(
+            args.target,
+            quick=args.quick,
+            recon_only=args.recon_only,
+            scan_only=args.scan_only,
+            cve_hunt=args.cve_hunt,
+            zero_day=args.zero_day
+        )
+        print_dashboard([result])
+        return
+
+    # Full pipeline: select targets then hunt each
+    log("info", "Starting full pipeline...")
+
+    # Setup wordlists
+    if not os.path.exists(os.path.join(WORDLIST_DIR, "common.txt")):
+        setup_wordlists()
+
+    # Select targets
+    targets = select_targets(top_n=args.top)
+    if not targets:
+        log("err", "No targets selected. Exiting.")
+        sys.exit(1)
+
+    # Hunt each target
+    results = []
+    for i, target in enumerate(targets):
+        domains = target.get("scope_domains", [])
+        if not domains:
+            log("warn", f"No domains for {target.get('name', 'unknown')} — skipping")
+            continue
+
+        # Hunt the primary domain
+        primary_domain = domains[0]
+        log("info", f"[{i+1}/{len(targets)}] Hunting: {target.get('name', primary_domain)}")
+        log("info", f"  Domain: {primary_domain}")
+        log("info", f"  Program: {target.get('url', 'N/A')}")
+
+        result = hunt_target(primary_domain, quick=args.quick)
+        results.append(result)
+
+    print_dashboard(results)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,73 @@
+triage_version: "1.0"
+mode: INITIAL_TRIAGE
+finding_id: "unknown"
+title: ""
+verdict: HOLD_INSUFFICIENT_EVIDENCE
+confidence: 0
+proposed_severity: UNDETERMINED
+normalized_claim:
+  attacker: ""
+  entry_point: ""
+  trigger: ""
+  root_cause: ""
+  security_property: ""
+  impact: ""
+  affected_configuration: ""
+scope:
+  status: UNKNOWN
+  threat_model_fit: UNKNOWN
+  evidence: []
+  exclusions_or_risks: []
+reachability:
+  status: UNCONFIRMED
+  path: []
+  guards_checked: []
+  blockers: []
+  evidence: []
+attacker_control:
+  controlled_values: []
+  uncontrolled_values: []
+  preconditions: []
+  contradictory_assumptions: []
+root_cause_validation:
+  status: UNCONFIRMED
+  violated_invariant: ""
+  evidence: []
+  alternative_explanations: []
+counter_evidence: []
+evidence_quality:
+  reproduction_level: SPECULATION
+  reproducibility: "unknown"
+  control_experiment: ""
+  artifacts: []
+  limitations: []
+impact_validation:
+  primitive: ""
+  demonstrated_security_consequence: ""
+  blast_radius: ""
+  persistence: ""
+  recovery: ""
+  proven_impact: ""
+  unsupported_claims: []
+novelty:
+  duplicate_status: DUPLICATE_STATUS_UNKNOWN
+  evidence: []
+scoring:
+  reachability_R: 0
+  attacker_control_A: 0
+  exploit_reliability_E: 0
+  impact_I: 0
+  blast_radius_B: 0
+  persistence_P: 0
+  scope_fit_S: 0
+  evidence_quality_Q: 0
+  raw_confidence: 0
+  applied_caps: []
+  final_confidence: 0
+required_next_steps: []
+report_guidance:
+  safe_claims: []
+  claims_to_remove_or_downgrade: []
+  recommended_title: ""
+  recommended_severity: ""
+final_reasoning: ""

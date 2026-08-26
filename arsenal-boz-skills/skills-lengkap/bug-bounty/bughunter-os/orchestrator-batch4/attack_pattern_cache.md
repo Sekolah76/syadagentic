@@ -1,0 +1,29 @@
+# Attack Pattern Cache
+
+## Objective
+Cache Pack A attack patterns already evaluated and their outcomes.
+
+## Stored Data
+- Key identifiers
+- Evidence references
+- Current status
+- Confidence metadata
+
+## Update Rules
+1. Add new validated information.
+2. Merge duplicate observations.
+3. Preserve traceability.
+4. Discard stale or superseded context.
+
+## Retrieval Strategy
+Return only the minimum relevant context for the current audit task.
+
+## Consistency Checks
+- No conflicting records
+- Evidence linked
+- Versioned updates
+- Deterministic retrieval
+
+## Downstream Consumers
+Reporting Engine (Batch 5)
+Self Review (Batch 6)

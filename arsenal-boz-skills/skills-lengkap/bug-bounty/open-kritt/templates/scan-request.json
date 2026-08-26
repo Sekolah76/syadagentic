@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Kritt Scan Request",
+  "properties": {
+    "target": { "type": "string", "description": "GitHub repo URL, Git SSH URL, or local path" },
+    "bug_class": { "type": "string", "enum": ["reentrancy","access-control","oracle","proxy","gas","garbage-collection","bridge-message","all"], "default": "all" },
+    "format": { "type": "string", "enum": ["json","sarif","raw"], "default": "json" },
+    "depth": { "type": "string", "enum": ["quick","full"], "default": "full" }
+  },
+  "required": ["target"]
+}

@@ -1,0 +1,32 @@
+web3_context:
+  network: ""
+  fork_or_test_environment: ""
+  block_slot_epoch: ""
+  components: []
+  state_timeline:
+    - step: 1
+      transaction: ""
+      pre_state: {}
+      action: ""
+      post_state: {}
+      invariant_delta: ""
+  callers_and_signers: []
+  atomicity:
+    single_transaction: false
+    revert_behavior: ""
+    ordering_requirements: []
+  oracle:
+    source: ""
+    update_window: ""
+    liquidity_assumptions: []
+    protections_checked: []
+  economics:
+    starting_capital: ""
+    temporary_liquidity: ""
+    fees_and_slippage: ""
+    net_extractable_value: ""
+    attacker_cost: ""
+  finality_and_consensus:
+    confirmation_or_finality: ""
+    schedule_classification: ""
+    reconciliation_checked: false

@@ -1,0 +1,45 @@
+bundle_id: EVID-001
+finding_id: ""
+title: ""
+target:
+  name: ""
+  revision: ""
+  environment: ""
+  authorization_reference: ""
+readiness_verdict: ""
+root_cause_summary: ""
+validated_impact: ""
+claims:
+  - id: C-001
+    statement: ""
+    class: observed|derived|inferred|unverified
+    artifact_ids: []
+    limitations: []
+artifacts:
+  - id: ART-001
+    path: ""
+    type: source|input|output|log|trace|state|poc|screenshot|control|other
+    description: ""
+    producer: ""
+    generation_action: ""
+    environment: ""
+    redactions: []
+    sha256: ""
+reproduction:
+  prerequisites: []
+  setup_steps: []
+  trigger_steps: []
+  expected_vulnerable_result: ""
+  control_steps: []
+  expected_control_result: ""
+  cleanup_steps: []
+  attempts: null
+  successes: null
+limitations: []
+missing_evidence: []
+sensitive_data_review:
+  status: passed|required|failed
+  notes: []
+handoffs:
+  report_writer_notes: []
+  guardrail_notes: []

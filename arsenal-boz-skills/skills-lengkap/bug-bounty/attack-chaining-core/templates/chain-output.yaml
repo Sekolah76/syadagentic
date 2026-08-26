@@ -1,0 +1,66 @@
+chain_version: "1.0"
+mode: DISCOVERY
+chain_id: ""
+title: ""
+domain: ""
+verdict: CHAIN_CANDIDATE
+confidence: 0
+starting_attacker:
+  capability: ""
+  privileges: ""
+  resources: ""
+  interaction_required: ""
+  assumptions: []
+primitives:
+  - step: 1
+    finding_id: ""
+    title: ""
+    component: ""
+    preconditions: []
+    trigger: ""
+    observed_primitive: ""
+    postconditions: []
+    capability_gained: []
+    capability_consumed: []
+    persistence: ""
+    evidence_level: ""
+    scope_status: UNKNOWN
+transitions:
+  - from_step: 1
+    to_step: 2
+    required_input: ""
+    supplied_output: ""
+    compatibility: UNCONFIRMED
+    blockers: []
+    evidence: []
+final_impact:
+  protected_asset_or_property: ""
+  demonstrated_result: ""
+  inferred_result: ""
+  blast_radius: ""
+  persistence: ""
+  recovery: ""
+minimality:
+  removable_steps: []
+  shorter_alternatives: []
+  reason_chain_is_material: ""
+counter_evidence: []
+scoring:
+  compatibility_C: 0
+  reachability_R: 0
+  attacker_control_A: 0
+  reliability_L: 0
+  evidence_E: 0
+  impact_I: 0
+  scope_fit_S: 0
+  mitigation_resistance_M: 0
+  raw_confidence: 0
+  applied_caps: []
+  final_confidence: 0
+verifier_handoff: []
+report_guidance:
+  safe_claims: []
+  unsupported_claims: []
+  recommended_severity: UNDETERMINED
+  recommended_title: ""
+summary: ""

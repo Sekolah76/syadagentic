@@ -1,0 +1,10 @@
+{
+  "verifier": {
+    "enabled": true,
+    "baseurl": "https://api.xah.io/v1",
+    "model": "vpsnodelab/claude-opus-4-8",
+    "fallback_model": "openai/minimax-m3",
+    "max_tokens": 500,
+    "temperature": 0.1
+  }
+}
