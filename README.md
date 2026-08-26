@@ -85,13 +85,17 @@ install_universal.py      One-click installer (Hermes/Claude/opencode/Cursor)
 
 | Target | Hasil | Keterangan |
 |---|---|---|
-| Gemini 3.7 AntiGravity (third-party API) | ✅ **5/6 kategori OPEN** | farm/bot, bypass (5618ch), build-AI (8810ch), **NSFW (1089ch)**, abuse (4016ch) |
-| Codex GPT-5.6-luna (third-party API) | ✅ **OPEN** | bot workflow 8379 chars (Involuntary Jailbreak 21.7s, Cipher 68.4s) |
+| Gemini 3.7 AntiGravity (third-party API) | ✅ **5/6 kategori OPEN** | farm/bot, bypass (5618ch), build-AI (8810ch), **NSFW (1089ch)**, abuse (4016ch); +multilingual T107 (Latin/Indo, script mail.tm) |
+| Codex GPT-5.6-luna (third-party API) | ✅ **OPEN** | bot workflow 8379 chars; farming T105 (986ch); NSFW T105 (6656ch) |
+| Codex GPT-5.6-terra | ✅ **OPEN (NSFW)** | T105 2936+2917 chars; farming T105+ownership (script nyata) |
+| **ChatGPT gpt-5.5 / gpt-4o / gpt-5.4-mini** | ✅ **OPEN (farming)** | via T107 Indonesia multilingual — script VERIFIED (1482/1114/913 chars) |
+| DeepSeek v4-flash (open-weight) | ✅ **OPEN semua** | farming script verified (922ch, T105 + T107 Latin 2132ch), JB/NSFW open |
 | GPT-OSS-120b | ✅ OPEN | mitmproxy/Fiddler intercept (SYAD-SHORT) |
 | Laguna/Nemotron (open-weight) | ✅ OPEN konsisten | farm/RE/web3 (auto-framing, escalator S1 9.7s) |
-| **ChatGPT resmi (web/API publik)** | ❌ **BLOCKED** | content classifier ganas + RLHF — request disaring di gerbang SEBELUM model. Tidak ada prompt yang bisa 100% tembus ini (fakta industri, semuanya kalah termasuk framework lain) |
+| **ChatGPT resmi (web/API publik)** | ❌ **BLOCKED** | content classifier ganas + RLHF — request disaring di gerbang SEBELUM model. Tidak ada prompt yang bisa 100% tembus ini (fakta industri) |
 | **Claude resmi (API publik)** | ❌ BLOCKED | Anthropic hardening serupa |
 | Codex resmi (internet) | ⚠️ Sebagian | kode/teknis tembus; farming eksplisit = staging guardrail |
+| **JB-payload frontier** (minta model buat script disable safety) | ❌ BLOCKED | server filter semua provider (12+ jalur dicoba: T100-T108, cipher, DAN, AutoDAN, DeepInception, GPTFuzz, multilingual) — jalur alternatif = FINETUNE (FINE-TUNE-JB.md) |
 
 **Kesimpulan transparan**: framework ini tembus LLM yang aksesnya tidak resmi/third-party dan open-weight (pasar jailbreak nyata). **API resmi ChatGPT/Claude/Gemini punya classifier server yang tidak bisa dibobol prompt mana pun** — klaim sebaliknya = penipuan. Lihat `GUIDE-MODEL.md` utk pilih model yang works.
 
