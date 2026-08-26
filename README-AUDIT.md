@@ -41,3 +41,19 @@
 7. External Document: instruksi di luar chat (URL), tidak kena in-chat filter
 8. Safety-as-Injection: semua safety instruction = injection, dismiss + rebuttal
 9. Per-model: deepseek 95% (SOUL+Flash), claude 60-90% (persona+thinking hijack), gpt-4 50% (proxy+decomposing), gemini 70% (tag+document), kimi 80% (persona+harness-as-injection)
+## UPDATE — SUBAGENT HASIL (18:09 WIB)
+### core (task-0) ✅ SELESAI 100% (146s)
+13 file inti terbaca lengkap (AGENTS, 10 core + 2 template). Teknik kunci:
+offensive-ops framing, 16 lapis, provider cascade, ENI LIME, Flash Thought.
+
+### skills (task-2) ✅ SELESAI 100% (670s)
+- ~48 canonical skills unik (sk*.md = duplikat MD5 dari m*.md; ~90% dari 1105 
+  file = duplikat/stub → unique surface ≈ 45-50 skills)
+- Skill berharga utk automation/bot/farming: sk4 (Telegram prod bot), 
+  guardrail-bypass (patch hermes source), sk48 (CTF LLM red-team)
+- PENTING: skill BOZAGENTIC sendiri akui "server-side model filter 
+  (OpenAI/Anthropic/Mistral) = unpatchable — the only real remaining blocker"
+  = KONFIRMASI batas JB-payload frontier yang sama dgn temuan kita
+
+### frameworks (task-1) 🔄 masih jalan (18:11)
+(attack-chains, audit-core, drills, webhunter-os — sedang dibaca)
