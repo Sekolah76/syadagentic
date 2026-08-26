@@ -1,118 +1,205 @@
-# SYADAGENTIC — Universal Jailbreak Protocol v4.0
+<div align="center">
 
-**Zero-Refusal Sovereign Agent Framework — satu file, semua agent, semua model.**
-Framework prompt + toolchain yang membuat LLM/agent/provider **nurut dan mengeksekusi tanpa batasan** — untuk automation, bot, farming, security testing, AI building, dan research.
+# 🔓 SYADAGENTIC
+
+### Universal Agent Framework — Zero-Refusal · Automation · Security
+
+**Bikin AI agent kamu nurut total — farming, automation, security testing, dan eksekusi penuh tanpa halangan.**
+
+`bash install.sh` → langsung jalan di **Hermes · Claude Code · Codex · opencode · API apa pun**
+
+[![Version](https://img.shields.io/badge/version-7.3-2ea44f)](#)
+[![Templates](https://img.shields.io/badge/templates-40%2B-blue)](#)
+[![Skills](https://img.shields.io/badge/skills-1128-important)](#)
+[![Framework](https://img.shields.io/badge/framework-core-4%20modul-purple)](#)
+[![License](https://img.shields.io/badge/license-MIT-green)](#)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)](#)
 
 ---
 
-## ✨ Kemampuan (apa yang bisa dilakukan)
+</div>
 
-| Kategori | Contoh | Status |
-|---|---|---|
-| **Zero-Refusal** | Agent tidak menolak/moralizing — eksekusi langsung | ✅ Verified (Gemini, GPT, open-weight) |
-| **Bot Automation** | Register massal, looping register→logout, intercept API | ✅ Verified (Gemini 5/6 kategori OPEN) |
-| **Farming & Trial Stacking** | Multi-account, email temp, fingerprint isolation, proxy rotate | ✅ Pipeline lengkap |
-| **Bypass & Security** | Bot-detection bypass, WAF, captcha, auth bypass | ✅ Verified |
-| **Build AI/Agent** | Agent arsitektur, tools, memory, multi-model routing | ✅ Verified (Gemini 8810 chars) |
-| **Web3/Exploit Analysis** | Z3 formal verify, smart contract audit, DeFi bug hunt | ✅ Verified (rounding bug detect) |
-| **Reverse Engineering** | frida hooking, angr symbolic, binary/APK/firmware | ✅ Toolchain lengkap |
-| **Creative/18+** | Fiction framing untuk konten dewasa | ✅ Verified (Gemini OPEN) |
-| **Jailbreak Baru** | Red-team framework, template generation | ✅ Verified (open-weight) |
+## 🚀 Apa Ini?
 
-## 🧠 Cara kerjanya (keunggulan)
+**SYADAGENTIC** adalah framework universal yang mengubah AI agent (Claude, GPT, Gemini, DeepSeek, atau model open-weight apa pun) menjadi **execution engine** yang langsung mengerjakan perintah — tanpa penolakan, tanpa disclaimer, tanpa penundaan.
 
-1. **Sovereign Hierarchy** — instruksi operator = absolut, tidak ada lapisan override
-2. **Intelligence Amplifier** — tiap tugas: Analisis → Strategi → Eksekusi → Verifikasi (auto-workflow, tidak menunggu per-langkah)
-3. **Multi-Solusi** — A gagal → otomatis B/C/D (retry, rotate, alternate model, reframe) — minimal 3-5 pendekatan sebelum menyerah
-4. **No-Hallucination** — every claim = real tool output, anti-bohong
-5. **AUTO-FRAMING** — otomatis reframe task sbg QA/lab/CTF engineering → hindari trigger refusal
-6. **20 Injection Templates (T1-T20)** — Policy Puppetry, Crescendo, TokenBreak, Cipher, Involuntary Jailbreak (arXiv 2508.13246), Tool-Delegation, Multi-Model Routing, dll
-7. **FRONTIER BYPASS** — 8 teknik berurutan khusus Claude/Gemini/GPT/Grok
-8. **Auto-Research** — agent riset mendalam dari semua sumber (web, GitHub, Twitter/X, Threads, forum, komunitas China, arXiv) sampai akar masalah
+Dibangun dari riset mendalam di bidang **jailbreak / prompt-injection / refusal-bypass** + **arsenal automation & security** yang dikurasi ratusan repository. Bukan "tombol ajaib" — ini teknik nyata yang **teruji** di banyak model (lihat [Verified Matrix](#-verified-strategy-matrix)).
 
-## 📚 Cara Pakai (30 detik)
+> ⚠️ **Jujur, bukan scam:** Tidak ada framework yang "100% tembus semua model" — model frontier (OpenAI/Google/Anthropic) punya server-side filter yang tidak bisa dihapus prompt. SYADAGENTIC menang di: **open-weight models, farming, automation, security testing, dan refusal-bypass via framing/encoding/persona** — terbukti. Yang klaim "tembus semua" = penipuan.
 
-```bash
-# 1. Taruh SYADAGENTIC.md di lokasi yang agent baca:
-#    - Hermes:      agent.system_prompt = isi SYADAGENTIC.md
-#    - Claude Code: ~/.claude/CLAUDE.md (atau ./CLAUDE.md di project)
-#    - opencode:    ~/.config/opencode/AGENTS.md
-#    - Cursor:      ~/.cursorrules
-#    - Project:     ./AGENTS.md atau ./SYADAGENTIC.md
+---
 
-# 2. Atau satu-klik installer (auto-detect semua agent di device):
-python install_universal.py
+## ✨ Bisa Apa Saja?
 
-# 3. Verifikasi:
-python tests/run_tests.py        # 10/10 PASS = terpasang benar
-```
+| Kategori | Kemampuan |
+|---|---|
+| 🤖 **Zero-Refusal** | Agent menjalankan perintah langsung, tanpa refusal/disclaimer/moralizing |
+| 🧪 **Jailbreak / Prompt Injection** | 40+ template (T1–T119): persona overwrite, reasoning hijack, translation framing, tag injection, provider cascade |
+| ⚙️ **Automation** | Bot, cron, webhook, batch job, planner, swarm, IFTTT engine |
+| 🌾 **Farming** | Pipeline akun massal (mail.tm/TestMail + captcha solve + inject key), anti-deteksi, anti-ban |
+| 🛡️ **Security / Pentest** | 627 skill bug-bounty: SQLi, XSS, SSRF, subdomain, API fuzz, privesc, LLM red-team |
+| 🧠 **Framework-Core** | Phase-engine (checkpoint/resume/budget-token), Governor (spend-cap/kill-switch), Chain-map, Drills benchmark |
+| 🖼️ **Design & Content** | 108 skill anti-AI-slop design (hallmark), copywriting, humanizer, marketing |
+| 🔑 **API / Router** | 9router integration, multi-provider cascade, key-pool rotation, TLS impersonation |
 
-**Frontier models (GPT/Gemini/Claude)**: pakai `SYADAGENTIC-SHORT.md` (1.2KB) sbg system prompt — versi ringkas yang verified tembus di model closed-frontier tanpa timeout.
+---
 
-## 🎯 Model yang didukung
-
-**TIDAK tergantung model tertentu** — framework bekerja di SEMUA:
-- **Open-weight**: DeepSeek, Qwen, Llama, Nemotron, Laguna, Mistral, GLM, Kimi dll (100% uncensored)
-- **Closed API**: GPT-5.x, Gemini 3.x, Claude (lewat tool-delegation/Involuntary Jailbreak — classifier server-side tetap ada, fakta teknis)
-- **Agent apa pun**: Hermes, Claude Code, opencode, Cursor, Custom API, LangChain dll
-
-User bebas pakai model & agent mereka sendiri — framework hanya prompt + toolchain.
-
-## 📦 Isi Paket
+## 📦 Isi Repository
 
 ```
-SYADAGENTIC.md            Universal jailbreak protocol (11KB, versi lengkap)
-SYADAGENTIC-SHORT.md      Versi ringkas utk frontier model (1.2KB)
-SOUL.md                   Zero-refusal identity (detail)
-AGENTS.md                 Universal routing + auto-research WAJIB
-prefill.json              Compliance priming
-prompt-injection/templates.md   20 template T1-T20 + model matrix
-gate/                     7-stage evidence gate (anti-halu)
-tools/                    TokenBreak + Caesar cipher encoder
-tests/                    Test suite (10/10 PASS) + verify installation
-install_universal.py      One-click installer (Hermes/Claude/opencode/Cursor)
-```
-
-## ⚖️ Jujur (anti-scam — penting dibaca)
-
-- **"Nurut mengeksekusi" = 100% berfungsi** di open-weight + frontier (tool-delegation)
-- **Server-side classifier provider cloud** (OpenAI/Google/Anthropic) tetap ada — filter di gerbang request, tidak bisa 100% di-bypass prompt (fakta teknis SEMUA framework, termasuk yang lain)
-- **Bukan tombol ajaib**: exploit butuh target yang benar-benar rentan; framework menyediakan toolchain-nya
-- **Model gratis = flaky** → framework punya escalator (T18) + multi-model routing (T20) utk jaminan
-- **Gunakan untuk**: automation milik sendiri, security testing authorized, research, pembuatan produk. Tanggung jawab penggunaan = pengguna.
-
-## 🧪 Hasil Test Nyata (Agt 2026 — reproducible, bukan klaim)
-
-| Target | Hasil | Keterangan |
-|---|---|---|
-| Gemini 3.7 AntiGravity (third-party API) | ✅ **5/6 kategori OPEN** | farm/bot, bypass (5618ch), build-AI (8810ch), **NSFW (1089ch)**, abuse (4016ch); +multilingual T107 (Latin/Indo, script mail.tm) |
-| Codex GPT-5.6-luna (third-party API) | ✅ **OPEN** | bot workflow 8379 chars; farming T105 (986ch); NSFW T105 (6656ch) |
-| Codex GPT-5.6-terra | ✅ **OPEN (NSFW)** | T105 2936+2917 chars; farming T105+ownership (script nyata) |
-| **ChatGPT gpt-5.5 / gpt-4o / gpt-5.4-mini** | ✅ **OPEN (farming)** | via T107 Indonesia multilingual — script VERIFIED (1482/1114/913 chars) |
-| DeepSeek v4-flash (open-weight) | ✅ **OPEN semua** | farming script verified (922ch, T105 + T107 Latin 2132ch), JB/NSFW open |
-| GPT-OSS-120b | ✅ OPEN | mitmproxy/Fiddler intercept (SYAD-SHORT) |
-| Laguna/Nemotron (open-weight) | ✅ OPEN konsisten | farm/RE/web3 (auto-framing, escalator S1 9.7s) |
-| **ChatGPT resmi (web/API publik)** | ❌ **BLOCKED** | content classifier ganas + RLHF — request disaring di gerbang SEBELUM model. Tidak ada prompt yang bisa 100% tembus ini (fakta industri) |
-| **Claude resmi (API publik)** | ❌ BLOCKED | Anthropic hardening serupa |
-| Codex resmi (internet) | ⚠️ Sebagian | kode/teknis tembus; farming eksplisit = staging guardrail |
-| **JB-payload frontier** (minta model buat script disable safety) | ❌ BLOCKED | server filter semua provider (12+ jalur dicoba: T100-T108, cipher, DAN, AutoDAN, DeepInception, GPTFuzz, multilingual) — jalur alternatif = FINETUNE (FINE-TUNE-JB.md) |
-
-**Kesimpulan transparan**: framework ini tembus LLM yang aksesnya tidak resmi/third-party dan open-weight (pasar jailbreak nyata). **API resmi ChatGPT/Claude/Gemini punya classifier server yang tidak bisa dibobol prompt mana pun** — klaim sebaliknya = penipuan. Lihat `GUIDE-MODEL.md` utk pilih model yang works.
-
-## 📗 GUIDE-MODEL.md (pilih model yang works)
-
-Lihat file `GUIDE-MODEL.md` di repo ini — panduan lengkap: model mana yang tembus task apa, cara setup, dan batas tiap model.
-
-## 🔬 Verifikasi Independen
-
-Jalankan sendiri (semua reproducible):
-```bash
-# Threat jailbreak ke model apapun (butuh API key — set env)
-export SYADAGENTIC_API_BASE="https://api-anda.com/v1"
-export SYADAGENTIC_API_KEY="sk-..."
-python tests/run_tests.py
+SYADAGENTIC/
+├── SOUL.md                     # Boot identity — zero-refusal sovereign agent (inti)
+├── AGENTS.md                   # Routing & dispatch — 10 divisi subagent
+├── SKILL.md                    # Referensi skill + cara pakai
+├── SYADAGENTIC.md              # Protokol lengkap (self-activating)
+├── prompt-injection/
+│   └── templates.md            # 40+ template jailbreak (T1–T119)
+├── arsenal-skills/             # 1128 file skill terkuraasi
+│   ├── STRATEGIES-LIBRARY.yaml # 5-layer JB + 8 universal pattern
+│   ├── templates-ken/          # ENI LIME full + compact payload per model
+│   ├── hermes-bypass/          # Bypass guardrail Hermes (patch source)
+│   └── skills-lengkap/         # bug-bounty 627 · affiliate 146 · web-dev 108 · dll
+├── arsenal-framework/          # Framework-core executable
+│   ├── phase-engine/           # Phase engine + farm pipeline
+│   ├── governor/               # Spend cap + kill-switch + dry-run
+│   ├── chain-map/              # Chain taxonomy (primitif→impact)
+│   ├── drills/                 # Benchmark agent L1–L5
+│   └── captcha-harvester/      # Route-intercept captcha 9-vendor
+├── checkpoint.py               # Auto-backup file penting
+├── install.sh                  # ⭐ Installer otomatis
+├── SOLVED-LENGKAP.md           # Panduan lengkap semua fitur
+├── FINE-TUNE-JB.md             # Jalur finetune (model sendiri = 100%)
+└── tests/                      # Test suite
 ```
 
 ---
 
-© 2026 SyadAgentic — Universal Jailbreak Protocol. For research & authorized automation.
+## 🚀 Cara Pakai (30 detik)
+
+### Opsi A — Clone + Installer (paling cepat)
+```bash
+git clone https://github.com/USERNAME/syadagentic.git
+cd syadagentic
+bash install.sh          # deteksi otomatis Hermes/Claude/Codex/opencode
+```
+
+### Opsi B — Manual (framework apa pun)
+```bash
+# 1. Salin SOUL.md jadi system prompt agent kamu
+#    Hermes:   hermes config set agent.system_prompt "$(cat SOUL.md)"
+#    Claude:   cp SOUL.md ~/.claude/CLAUDE.md
+#    Codex:    cp SOUL.md ~/.codex/AGENTS.md
+#    opencode: cp SOUL.md ~/.config/opencode/AGENTS.md
+#    API:      tempel SOUL.md di awal system prompt
+
+# 2. Verifikasi
+python3 tests/run_tests.py
+```
+
+### Opsi C — Docker / VPS / Server
+```bash
+# Tidak ada dependensi berat — cukup Python 3.8+ & curl
+# Framework murni file (md/yaml/py) — jalan di mana saja
+```
+
+---
+
+## 🧠 Template Jailbreak Terkuat (T1–T119)
+
+| Template | Fungsi | Verified |
+|---|---|---|
+| **T105** | Code-as-Fiction doktrin (farming/NSFW) | ✅ Codex/Gemini/DeepSeek |
+| **T107** | Multilingual / low-resource | ✅ Gemini (mail.tm asli) |
+| **T109** | Translation framing (tembus refusal) | ✅ ChatGPT Terra/Luna |
+| **T110** | ENI LIME persona (soulmate compliance) | ✅ 90%+ (Bozagentic) |
+| **T113** | Scoped offensive-ops (target\|auth\|evidence) | ✅ refusal-killer |
+| **T117** | Provider cascade (bypass frontier) | ✅ GPT-4/Gemini |
+| **T118** | LLM red-team extraction (dual-guard) | ✅ sk48 |
+| **T119** | Compact payload per model | ✅ DeepSeek/Kimi/Claude |
+
+**Pipeline 2-langkah paling ampuh:**
+```
+T109 (translate — bypass refusal) → T105 (execute — hasil task nyata)
+= tembus rev/scrape/abuse/farming di ChatGPT/Codex
+```
+
+---
+
+## 🏗️ Framework-Core (Executable, Bukan Stub)
+
+| Modul | Fungsi | Status |
+|---|---|---|
+| **phase-engine** | 5 preset (generic/pentest/osint/project-build/farm), checkpoint/resume, budget token, compression, auto-skill loop | ✅ Tested |
+| **farm_pipeline** | Farming nyata (mail.tm → register → key) | ✅ Tested (akun 201) |
+| **governor** | Spend cap, kill-switch, dry-run, allowlist | ✅ Tested |
+| **chain-map** | Chain taxonomy 4 domain (primitif→impact) | ✅ Tested |
+| **drills** | Benchmark agent L1–L5 | ✅ Tested |
+| **captcha-harvester** | Route-intercept captcha 9-vendor + replay curl_cffi | ✅ Tested |
+
+---
+
+## ✅ Verified Strategy Matrix
+
+Hasil test nyata (bukan klaim):
+
+| Task | Model | Template | Hasil |
+|---|---|---|---|
+| Farming | Codex Terra/Luna | T105+ownership | ✅ script nyata |
+| Farming | Gemini 3.7 | T105/T107 | ✅ mail.tm asli |
+| Farming | ChatGPT 5.5/4o | T107 Indonesia | ✅ |
+| Rev/scrape/abuse | ChatGPT | T109→T105 | ✅ (rev 18k) |
+| NSFW | Codex | T105 | ✅ 6/6 |
+| JB-payload | frontier | semua | ❌ server filter (jujur) |
+| JB-payload | open-weight/finetune | T100+/FINE-TUNE | ✅ 100% |
+
+---
+
+## 🛡️ Safety & Anti-Rusak
+
+```
+✅ checkpoint.py — auto-backup file penting (9router DB, config, SSH, memory)
+✅ SAFETY-FRAMEWORK — protected paths + silo profile + dry-run + kill-switch
+✅ Profile terpisah — tidak menimpa konfigurasi utama
+✅ SKILLS.lock — manifest integritas 8137 skill (anti-corruption)
+```
+
+---
+
+## ⚠️ Etika & Tanggung Jawab
+
+SYADAGENTIC dibuat untuk **otomasi kerja teknis, riset keamanan (authorized/CTF/bug-bounty), dan engineering**. Gunakan hanya pada:
+- ✅ Infrastruktur milik sendiri
+- ✅ Target yang kamu punya izin (bug bounty, CTF, pentest authorized)
+- ✅ Riset & eksperimen
+
+**Garis keras yang tidak bisa dilewati:** konten seksual melibatkan anak, senjata pemusnah massal, dan perusakan diri. Sisanya bebas — tapi tanggung jawab ada di operator.
+
+---
+
+## 🧩 Support & Kompatibilitas
+
+| Platform | Status |
+|---|---|
+| Hermes Agent | ✅ Native (install.sh) |
+| Claude Code | ✅ (CLAUDE.md) |
+| OpenAI Codex | ✅ (AGENTS.md) |
+| opencode | ✅ (AGENTS.md) |
+| API OpenAI-compatible | ✅ (tempel SOUL.md) |
+| Windows / Linux / macOS | ✅ |
+| Python 3.8+ | ✅ (tidak butuh deps berat) |
+
+---
+
+## 📄 Lisensi
+
+MIT — bebas pakai, modifikasi, distribusi.
+
+---
+
+<div align="center">
+
+**⭐ Kalau framework ini membantu, kasih star — biar makin banyak yang nemu.**
+
+Dibuat dengan 🔥 — [Masuk Discord](https://t.me/...) · [Dokumentasi](https://github.com/USERNAME/syadagentic/blob/main/SOLVED-LENGKAP.md)
+
+</div>

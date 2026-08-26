@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""governor.py — Pre-Execution Gate (dari pola hermes-bridge BOZAGENTIC + usulan teman).
+"""governor.py — Pre-Execution Gate (dari pola hermes-bridge SYADAGENTIC + usulan teman).
 Gate sebelum eksekusi berbahaya: allowlist command, spend cap, kill-switch, dry-run.
 SyadAgentic v6.0 — executable, bukan stub. Melindungi operator dari batch-ops liar.
 """

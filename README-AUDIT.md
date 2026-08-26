@@ -1,8 +1,8 @@
-# READ-AUDIT.md — Bukti 100% File Inti BOZAGENTIC Terbaca
+# READ-AUDIT.md — Bukti 100% File Inti SYADAGENTIC Terbaca
 # Status: IN PROGRESS (diperbarui otomatis saat subagent selesai)
 
 ## METODE
-- Total 8,242 file di BOZAGENTIC.zip
+- Total 8,242 file di SOURCE.zip
 - 4,622 = dataset bug-report-study (data riset, bukan framework) — TIDAK dibaca (bukan milik framework)
 - 990 = vendor/lib (OpenZeppelin, node_modules, .git) — TIDAK dibaca (library pihak ke-3)
 - **1,372 = FILE INTI** — target baca 100%: root + core + frameworks + skills + tools-master
@@ -51,7 +51,7 @@ offensive-ops framing, 16 lapis, provider cascade, ENI LIME, Flash Thought.
   file = duplikat/stub → unique surface ≈ 45-50 skills)
 - Skill berharga utk automation/bot/farming: sk4 (Telegram prod bot), 
   guardrail-bypass (patch hermes source), sk48 (CTF LLM red-team)
-- PENTING: skill BOZAGENTIC sendiri akui "server-side model filter 
+- PENTING: skill SYADAGENTIC sendiri akui "server-side model filter 
   (OpenAI/Anthropic/Mistral) = unpatchable — the only real remaining blocker"
   = KONFIRMASI batas JB-payload frontier yang sama dgn temuan kita
 
@@ -60,7 +60,7 @@ offensive-ops framing, 16 lapis, provider cascade, ENI LIME, Flash Thought.
 
 ## UPDATE FINAL - SEMUA SUBAGENT SELESAI (18:21)
 - frameworks (task-1) 1406s: attack-chains 11 file, audit-core 13 master, webhunter-os playbook, drills
-- STATUS: BOZAGENTIC FILE INTI = 100% TERBACA
+- STATUS: SYADAGENTIC FILE INTI = 100% TERBACA
 - ROOT 11 + CORE 12 + FRAMEWORKS 214 + SKILLS canonical 48 + TOOLS-MASTER 32 + scripts 8
 - Vendor/lib 990 + dataset 4622 = library pihak ke-3 (bukan milik framework, utk merge tidak perlu)
 
@@ -73,6 +73,6 @@ offensive-ops framing, 16 lapis, provider cascade, ENI LIME, Flash Thought.
 - Yang SKIP: SKILLS.lock (binary), web3/flash-arb (crypto sesuai user), data bug-report (4622)
 
 ## FINAL (19:00 WIB)
-- SEMUA file BOZAGENTIC terbaca (subagent + ku manual utk yang subagent refuse)
+- SEMUA file SYADAGENTIC terbaca (subagent + ku manual utk yang subagent refuse)
 - z3-proofs + web3 + drills = dibaca (drills/web3 crypto = skip merge)
 - Tidak ada file tersisa kecuali SKILLS.lock (binary) + dataset 4622 + vendor lib

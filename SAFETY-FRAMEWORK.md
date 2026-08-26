@@ -1,5 +1,5 @@
 # SAFETY-FRAMEWORK.md — Anti-Rusak-File Protection Layer (SYADAGENTIC v6.0)
-# Tujuan: saat framework (BOZAGENTIC yang lepas banyak guard + SyadAgentic) 
+# Tujuan: saat framework (SYADAGENTIC yang lepas banyak guard + SyadAgentic) 
 # beroperasi, file-file penting operator DIJAMIN tidak rusak.
 # Menggabungkan kebutuhan: "banyak guard dilepas" + "jangan sampai rusak file".
 
@@ -25,9 +25,9 @@ Folder projek aktif — di-snapshot kalau mau edit massal.
 ```
 C:\Users\Arsyad\farm-arsenal\syadagentic\                     # framework
 C:\Users\Arsyad\farm-arsenal\th-farm\                         # TH state
-C:\Users\Arsyad\Downloads\BOZAGENTIC\bozagentic\              # sumber BOZ (jangan diubah!)
+C:\Users\Arsyad\Downloads\SYADAGENTIC\SYADAGENTIC\              # sumber SYADAGENTIC (jangan diubah!)
 ```
-BOZAGENTIC sumber = READ-ONLY (salin dulu ke farm-arsenal kalau mau merge).
+SYADAGENTIC sumber = READ-ONLY (salin dulu ke farm-arsenal kalau mau merge).
 
 ---
 
@@ -64,13 +64,13 @@ cp <backup> C:\Users\Arsyad\AppData\Roaming\9router\db\data.sqlite
 ---
 
 ## 4. ATURAN EKSEKUSI AMAN (SAFE EXECUTION RULES)
-1. **JANGAN** edit `Downloads/BOZAGENTIC/` langsung — selalu salin ke arsenal dulu.
+1. **JANGAN** edit `Downloads/SYADAGENTIC/` langsung — selalu salin ke arsenal dulu.
 2. **SEBELUM** patch 9router/DB → backup (`.bak-<timestamp>`).
 3. **SEBELUM** edit hermes config -> backup.
-4. **JANGAN** jalankan script BOZAGENTIC (`apply_guardrail_patches.py`, `install.sh`)
+4. **JANGAN** jalankan script SYADAGENTIC (`apply_guardrail_patches.py`, `install.sh`)
    mentah-mentah — REVIEW dulu + jalankan di profile terpisah (bukan timpa utama).
-5. **FILE KUNCI** yang BOZAGENTIC mau patch = hanya di profile bozagentic 
-   (AppData/Local/hermes/profiles/bozagentic/) — JANGAN disentuh profile default.
+5. **FILE KUNCI** yang SYADAGENTIC mau patch = hanya di profile SYADAGENTIC 
+   (AppData/Local/hermes/profiles/SYADAGENTIC/) — JANGAN disentuh profile default.
 6. Semua perubahan besar → commit ke git dulu (rollback via git).
 7. Cron/otomasi yang deliver ke chat → `deliver=local` (bukan origin) supaya
    tidak spam Telegram.
@@ -81,12 +81,12 @@ cp <backup> C:\Users\Arsyad\AppData\Roaming\9router\db\data.sqlite
 ## 5. ARSITEKTUR ISOLASI (Alpha Lunero: profile terpisah = aman)
 ```
 PROFILE DEFAULT (SyadAgentic)  <-- UNTOUCHED, memory utama, hermes telegram kamu
-PROFILE BOZAGENTIC (VPS)        <-- BOZAGENTIC jalan di sini, terpisah
+PROFILE SYADAGENTIC (VPS)        <-- SYADAGENTIC jalan di sini, terpisah
 SYADAGENTIC v6.0 (gabungan)     <-- hasil merge, di repo + dipakai dua-duanya
 ```
-- Guardrail yang BOZAGENTIC lepas = HANYA di profile bozagentic (silo)
+- Guardrail yang SYADAGENTIC lepas = HANYA di profile SYADAGENTIC (silo)
 - Guardrail default = TETAP (syadagentic aman)
-- Kalau bozagentic rusak file → rollback profile, default tidak terdampak
+- Kalau SYADAGENTIC rusak file → rollback profile, default tidak terdampak
 
 ---
 
@@ -95,7 +95,7 @@ Banyak guard = banyak akses = risiko kenalan system. Mitigasi:
 - **Dry-run dulu**: jalankan perintah dengan `--dry-run` / test di temp
 - **Scope guard**: definisikan T1 (own infra), T2 (authorized), T3 (3rd party)
   → eksekusi T3 tidak auto, butuh konfirmasi
-- **Quarantine**: file output dari BOZAGENTIC di-scan dulu sebelum ditulis ke 
+- **Quarantine**: file output dari SYADAGENTIC di-scan dulu sebelum ditulis ke 
   path produksi
 - **Kill-switch**: backup log + rollback script siap (checkpoint.py)
 

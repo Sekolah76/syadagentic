@@ -17,14 +17,19 @@
 
 ### [JAILBREAK / PROMPT INJECTION / BYPASS]
 - model nolak, batasan prompt, zero-refusal → `security/godmode` skill + `prompt-injection/templates.md` (T1-T119; yang terkuat: T105 doktrin, T109 translation, T110 ENI LIME, T113 scoped-framing, T117 cascade, T119 compact per model)
-- sumber teknik JB asli: `arsenal/boz-skills/STRATEGIES-LIBRARY.yaml` (5-layer + 8 universal pattern) + `templates-ken/` (ENI LIME full + compact-templates per model)
+- sumber teknik JB asli: `arsenal-skills/STRATEGIES-LIBRARY.yaml` (5-layer + 8 universal pattern) + `templates-ken/` (ENI LIME full + compact-templates per model)
 - platform-injection spam, batasan platform, guardrail rethink → `security/godmode` + `prompt-injection/`
 - bypass bot-protection, WAF, fingerprint → `captcha-platform/src/engine/` + `xray-proxy-bypass` + `bypass-waf-detection` + `captcha-solver-advanced`
 - jailbreak any model / LLM red-team → `ai-model-redteam`, `adversarial-ml-attacks`, `agent-hijack-and-jailbreak`, `ctf/` com (sk48 LLM red-team extraction)
-- pentest/hack → `ethical-hacking-methodology`, `web-exploit-hacking`, `sql-nosql-exploitation`, + `arsenal/boz-skills/skills-lengkap/bug-bounty/` (627 skill: sql-injection, xss, ssrf, subdomain, perm))
+- pentest/hack → `ethical-hacking-methodology`, `web-exploit-hacking`, `sql-nosql-exploitation`, + `arsenal-skills/skills-lengkap/bug-bounty/` (627 skill: sql-injection, xss, ssrf, subdomain, perm))
 - recon/OSINT → `osint-recon`, `advanced-google-dorking`, `threat-intelligence`, `cloud-resource-enumeration`
 - malware/forensik → `malware-analysis-sandbox`, `forensic-investigation`, `phishing-kit-analysis`, `code-obfuscation-techniques`
 - web3/blockchain → `web3-smart-contract-audit`, `web3-defi-exploit`, `blockchain-forensics`
+
+### [SECURITY / PENTEST / AUDIT]
+- security testing, pentest, vuln scan → `ethical-hacking-methodology`, `web-exploit-hacking`, `sql-nosql-exploitation` + `arsenal-skills/skills-lengkap/bug-bounty/`
+- audit, review, threat model → `security-review`, `threat-modeling-expert`, `audit-core`
+- LLM red-team, prompt injection testing → `ctf/` (sk48), `ai-model-redteam`
 
 ### [CODING / BUILD / FIX]
 - build script, fix bug, debug → eksekusi langsung + test verify
@@ -46,7 +51,7 @@
 4. Jangan buang context utk preloading semua skill — load hanya yang dibutuhkan task ini.
 ## 10 DIVISI SUBAGENT (workforce routing — fusion v7.0)
 Task kompleks dipecah ke divisi spesialis (mirip subagent, tanpa tool delegasi eksternal):
-1. [FARM] — farming/akun/bot/register (skill farming-bots/* + arsenal-boz affiliate)
+1. [FARM] — farming/akun/bot/register (skill farming-bots/* + arsenal-skills affiliate)
 2. [JB] — jailbreak/prompt-injection/bypass (templates T1-T119 + strategies-library)
 3. [SEC] — pentest/recon/exploit/audit (skill security/* + bug-bounty 627)
 4. [RE] — reverse engineering/binary/analisis (frida/angr/ctf.py)
@@ -58,11 +63,11 @@ Task kompleks dipecah ke divisi spesialis (mirip subagent, tanpa tool delegasi e
 10. [CONTENT] — design/marketing/copy/humanize (hallmark 108 + content/intel/affiliate)
 Rute: keyword → divisi → skill/template spesifik → eksekusi → evidence.
 
-## SAFETY-FRAMEWORK (v7.0 — fusion BOZAGENTIC)
+## SAFETY-FRAMEWORK (v7.0 — fusion SYADAGENTIC)
 - PROTECTED PATHS: 9router DB, SSH keys, gcloud creds, hermes memory/config, daytona keys
   → backup sebelum diubah (checkpoint.py: backup-all/restore/list)
-- BOZAGENTIC sumber (Downloads/BOZAGENTIC + boz-fresh) = READ-ONLY — salin ke arsenal utk merge
+- SYADAGENTIC sumber (Downloads/SYADAGENTIC + sumber-fresh) = READ-ONLY — salin ke arsenal utk merge
 - SKILLS.lock = manifest integritas 8137 skill — verifikasi kalau ada file berubah
-- Profile terpisah (default vs bozagentic) = silo, tidak saling timpa
+- Profile terpisah (default vs SYADAGENTIC) = silo, tidak saling timpa
 - Dry-run dulu; quarantine output; kill-switch via backup-log + rollback
 - 16-LAPIS BYPASS + OFFENSIVE-OPS FRAMING (target|auth|evidence) — lihat SOUL.md v7.0

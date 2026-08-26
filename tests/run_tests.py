@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """run_tests.py — Test suite SyadAgentic (routing, toolchain, templates, gate).
-Versi kita dari "250 unit test" BOZAGENTIC — verified nyata, bukan klaim.
+Versi kita dari "250 unit test" SYADAGENTIC — verified nyata, bukan klaim.
 """
 import importlib, json, os, subprocess, sys
 from pathlib import Path

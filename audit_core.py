@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """audit_core.py — Smart Contract Invariant Verification (Z3 SMT Solver).
-Gap Bozagentic 'AuditCore' — kita buat versi real & work.
+Gap SYADAGENTIC 'AuditCore' — kita buat versi real & work.
 Verifikasi invariant kontrak sederhana (EVM-style) dgn Z3.
 
 Contoh: cek overflow/reentrancy invariant pada fungsi transfer.

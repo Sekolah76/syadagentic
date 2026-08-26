@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""drills.py — Agent Benchmark (dari frameworks/drills BOZAGENTIC + usulan teman).
+"""drills.py — Agent Benchmark (dari frameworks/drills SYADAGENTIC + usulan teman).
 Skenario latihan bertingkat utk mengukur kemampuan agent: TB3 vs zyro vs lainnya.
 Level: L1-literal, L2-parse, L3-reason, L4-compose, L5-execute.
 SyadAgentic v6.0 — executable, objektif per-level.

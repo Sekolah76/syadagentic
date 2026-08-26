@@ -1,5 +1,5 @@
 # ARSENAL INDEX — SyadAgentic v4 (semua skill/tools terkurasi)
-# Lokasi: boz-killer/arsenal/
+# Lokasi: syadagentic-killer/arsenal/
 
 ## JAILBREAK (per-model)
 - jailbreak/L1B3RT4S/ — liberation prompts (21k⭐, elder-plinius)

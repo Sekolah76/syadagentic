@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""chain_map.py — Chain Taxonomy (dari attack-chains BOZAGENTIC + usulan teman).
+"""chain_map.py — Chain Taxonomy (dari attack-chains SYADAGENTIC + usulan teman).
 Tiap temuan punya jalur eskalasi: primitif → kombinasi → impact.
 Generalisasi lintas domain: pentest, OSINT, monetisasi.
 SyadAgentic v6.0 — executable, bukan stub.

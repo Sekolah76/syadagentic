@@ -4,7 +4,7 @@
 ## 1. HERMES (native)
 - Install skill: install_universal.py
 - System prompt: config agent.system_prompt = SOUL.md + SYADAGENTIC.md
-- Guardrail bypass: boz-killer/apply_patches.py (tirith off)
+- Guardrail bypass: syadagentic-killer/apply_patches.py (tirith off)
 - Restart hermes → aktif
 
 ## 2. OPENCODE / CLAUDE CODE / CURSOR

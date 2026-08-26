@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 route_intercept_captcha.py — Route-Intercept Captcha/Token Harvester (TOP-10 #1)
-Teknik dari BOZAGENTIC captcha-solver (harvest-only pattern):
+Teknik dari SYADAGENTIC captcha-solver (harvest-only pattern):
 serve fake page di target origin → vendor JS asli jalan (byte-akurat) →
 grab token/cookie → replay bundle {token, cookies, UA, proxy} utk pure-HTTP replay.
 

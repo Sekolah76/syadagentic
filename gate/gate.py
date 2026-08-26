@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gate.py — 7-Stage Pre-Submission Gate (BOZAGENTIC Layer 4, versi SyadAgentic).
+"""gate.py — 7-Stage Pre-Submission Gate (SYADAGENTIC Layer 4, versi SyadAgentic).
 Setiap temuan/laporan wajib lolos verifikasi bukti teknis sebelum dilaporkan ke operator.
 
 Usage:

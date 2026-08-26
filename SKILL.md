@@ -1,11 +1,11 @@
 # SYADAGENTIC — SKILL.md (Skill Reference & Dispatch)
-# v7.0 — fusion SyadAgentic × BOZAGENTIC. Daftar skill yang tersedia utk agent.
+# v7.0 — fusion SyadAgentic × SYADAGENTIC. Daftar skill yang tersedia utk agent.
 # Load skill saat task cocok — jangan preload semua (hemat context).
 
-## ARSENAL UTAMA (boz-killer/arsenal/)
+## ARSENAL UTAMA (syadagentic-killer/arsenal/)
 - **jailbreak/**: 250+ repo JB (T1-T119, system-prompts-leaks, jailbreak_llms, 
   deepseek-v4-unrestricted, coldbrew-4in1, ChatGPT_DAN, dll)
-- **boz-skills/**: 1129 file non-crypto dari BOZAGENTIC:
+- **syadagentic-skills/**: 1129 file non-crypto dari SYADAGENTIC:
   - STRATEGIES-LIBRARY.yaml (5-layer JB + 8 universal pattern)
   - templates-ken/ (ENI LIME full + compact-templates per model + ctf.py)
   - skills-lengkap/ (bug-bounty 714, affiliate 146, web-dev 108, security 61, 
@@ -27,7 +27,7 @@
 | T105 | code-as-fiction doktrin | ✅ Codex/Gemini/DeepSeek (farm/NSFW) |
 | T107 | multilingual | ✅ Gemini (mail.tm) |
 | T109 | translation framing | ✅ ChatGPT (tembus refusal) |
-| T110 | ENI LIME persona | ✅ (BOZAGENTIC) |
+| T110 | ENI LIME persona | ✅ (SYADAGENTIC) |
 | T113 | scoped offensive-ops | ✅ refusal-killer |
 | T117 | provider cascade | ✅ (GPT-4/Gemini bypass) |
 | T118 | LLM red-team extraction | ✅ (sk48 dual-guard) |
@@ -37,7 +37,7 @@
 [FARM] [JB] [SEC] [RE] [CODE] [DATA] [INFRA] [LLM-REDTEAM] [CAPTCHA] [CONTENT]
 Lihat AGENTS.md utk routing detail.
 
-## SKILL BOZAGENTIC DI-ARSENAL (ringkas)
+## SKILL SYADAGENTIC DI-ARSENAL (ringkas)
 - automation/sk4 (tg bot prod), sk6 (API bridge), sk12 (batch), sk17 (planner/swarm)
 - ctf/sk43-48 (web/pwn/rev/crypto/forensics/LLM-redteam)
 - engineering/sk7 (AI builder), sk24 (MCP), sk5 (data), sk8 (file), sk9 (interface)

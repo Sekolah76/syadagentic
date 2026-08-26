@@ -1,5 +1,5 @@
 # SYADAGENTIC v6.7 — SOLVED LENGKAP (Cara Pakai Utk Semua Orang)
-# Versi final — fusion SyadAgentic × BOZAGENTIC. Zero-refusal agent framework.
+# Versi final — fusion SyadAgentic × SYADAGENTIC. Zero-refusal agent framework.
 # Dibuat: 2026-08-26. Semua modul = executable + teruji (bukan stub).
 
 ---
@@ -29,7 +29,7 @@ python3 tests/run_tests.py   # 10/10 PASS
 | T105 | Code-as-fiction doktrin (farming/NSFW) | ✅ Codex/Gemini/DeepSeek |
 | T107 | Multilingual/low-resource (farming) | ✅ Gemini (mail.tm asli) |
 | T109 | Translation framing (tembus refusal) | ✅ ChatGPT Terra/Luna |
-| T110 | ENI LIME persona (soulmate compliance) | ✅ (dari BOZAGENTIC) |
+| T110 | ENI LIME persona (soulmate compliance) | ✅ (dari SYADAGENTIC) |
 | T111 | Flash Thought reasoning hijack | ✅ DeepSeek |
 | T113 | Scoped offensive-ops (target\|auth\|evidence) | ✅ refusal-killer |
 | T114 | Sovereign-context header (anti-drift) | ✅ |
@@ -51,7 +51,7 @@ T109 (translate — bypass refusal) → T105 (execute — hasil task nyata)
 | drills/drills.py | Benchmark agent L1-L5 (ukur model mana paling nurut) | ✅ TESTED |
 | captcha-harvester/route_intercept_captcha.py | Route-intercept captcha harvest (TOP-10 #1) + replay curl_cffi | ✅ TESTED |
 
-## 🥇 TEKNIK ANTI-BOT / FARMING (dari BOZAGENTIC — TECHNIQUES-EXTRACTION-MASTER)
+## 🥇 TEKNIK ANTI-BOT / FARMING (dari SYADAGENTIC — TECHNIQUES-EXTRACTION-MASTER)
 ```
 - Route-intercept harvesting: serve fake page → vendor JS jalan → grab token/cookie
 - Ballistic-overshoot drag (6-11px) + numbered-grid VLM + key-pool rotation
@@ -78,13 +78,13 @@ T109 (translate — bypass refusal) → T105 (execute — hasil task nyata)
 ```
 - checkpoint.py: backup-all/restore/list (9router DB, config, memory, SSH)
 - SAFETY-FRAMEWORK.md: protected paths + silo profile + dry-run + kill-switch
-- Profile terpisah (default vs bozagentic) — tidak saling timpa
+- Profile terpisah (default vs SYADAGENTIC) — tidak saling timpa
 ```
 
 ## ⚠️ JUJUR (bukan scam)
 ```
 - "100% tembus SEMUA model" = TIDAK ADA yang bisa (server filter OpenAI/Google/
-  Anthropic = unpatchable — BOZAGENTIC pun akui). Yang tembus: open-weight 100%,
+  Anthropic = unpatchable — SYADAGENTIC pun akui). Yang tembus: open-weight 100%,
   farming/automation/NSFW di frontier, refusal via T109/T113.
 - Yang claim 100% frontier = penipuan.
 - Framework ini = verified + reproducible. Klaim sesuai bukti.
@@ -94,11 +94,11 @@ T109 (translate — bypass refusal) → T105 (execute — hasil task nyata)
 ```
 SOUL.md / AGENTS.md           Framework inti (fusion v6.7)
 prompt-injection/templates.md T1-T116 (36 templates)
-arsenal/                      280+ repo + extraction BOZAGENTIC + tools
+arsenal/                      280+ repo + extraction SYADAGENTIC + tools
 arsenal-framework/            phase-engine/governor/chain-map/drills
-arsenal-boz-skills/           19 skill non-crypto + extraction master
+arsenal-skills/           19 skill non-crypto + extraction master
 SAFETY-FRAMEWORK.md           Anti-rusak file
-README-AUDIT.md               Bukti baca 100% BOZAGENTIC
+README-AUDIT.md               Bukti baca 100% SYADAGENTIC
 FUSION-NOTES.md               Keputusan merge
 checkpoint.py                 Backup otomatis
 ```

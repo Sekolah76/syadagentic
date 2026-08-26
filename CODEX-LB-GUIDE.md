@@ -1,5 +1,5 @@
 # codex-lb — Setup Guide (farming Codex/ChatGPT via pool akun)
-# Lokasi: boz-killer/arsenal/tools/codex-lb (installed via uvx)
+# Lokasi: syadagentic-killer/arsenal/tools/codex-lb (installed via uvx)
 
 ## APA INI
 Load balancer utk akun ChatGPT/Codex: pool banyak akun → balance request →
