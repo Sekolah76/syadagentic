@@ -2,15 +2,19 @@
 """phase_engine.py — Phase Engine (terinspirasi WebHunter OS 8-phase, tapi executable).
 Fase generik: recon → map → model → test → validate → report.
 Preset: pentest, osint, project-build. State JSON + checkpoint/resume.
-SyadAgentic v6.0 — bukan stub (teruji nyata).
++ BUDGET-PER-FASE & CONTEXT-COMPRESSION (token efficiency — jawaban loop boros).
+SyadAgentic v6.3 — bukan stub (teruji nyata).
 """
-import json, os, sys, datetime, traceback
+import json, os, sys, datetime, traceback, re
 
 class PhaseEngine:
-    def __init__(self, name, preset="generic", state_dir=".phase-state"):
+    def __init__(self, name, preset="generic", state_dir=".phase-state",
+                 token_budget_per_phase=8000, compression_char_limit=3000):
         self.name = name
         self.preset = preset
         self.state_dir = state_dir
+        self.token_budget = token_budget_per_phase  # token per fase (anti-boros)
+        self.comp_char_limit = compression_char_limit  # compress data fase besar
         self.state_file = os.path.join(state_dir, f"{name}.json")
         os.makedirs(state_dir, exist_ok=True)
         self.state = self._load()
@@ -18,11 +22,15 @@ class PhaseEngine:
     def _load(self):
         if os.path.exists(self.state_file):
             try:
-                return json.load(open(self.state_file, encoding="utf-8"))
+                st = json.load(open(self.state_file, encoding="utf-8"))
+                # MIGRASI: pastikan key baru ada (state lama tanpa token budget)
+                st.setdefault("token_used", 0)
+                st.setdefault("compressed", 0)
+                return st
             except Exception:
                 pass
         return {"phase": 0, "phases": [], "data": {}, "started": None, "updated": None,
-                "checkpoints": [], "log": []}
+                "checkpoints": [], "log": [], "token_used": 0, "compressed": 0}
 
     def _save(self):
         self.state["updated"] = datetime.datetime.now().isoformat()
@@ -60,19 +68,35 @@ class PhaseEngine:
         return phases[idx] if phases else None
 
     def run_phase(self, fn, *args, **kwargs):
-        """Jalankan satu fase dengan checkpoint. fn = callable(engine, ctx) -> dict hasil."""
+        """Jalankan satu fase dengan checkpoint + budget token + compression."""
         phase = self.current_phase()
         if not phase:
             self.log("⚠ Semua fase selesai")
             return None
-        self.log(f"▸ Fase [{phase}] dimulai")
+        self.log(f"▸ Fase [{phase}] dimulai (budget {self.token_budget} token)")
         try:
             result = fn(self, *args, **kwargs)
+            # COMPRESSION: data besar di-compress supaya tidak bloat state
+            if isinstance(result, dict):
+                for k, v in result.items():
+                    if isinstance(v, str) and len(v) > self.comp_char_limit:
+                        result[k] = v[:self.comp_char_limit] + f"...[compressed {len(v)}→{self.comp_char_limit}]"
+                        self.state["compressed"] += 1
+            elif isinstance(result, str) and len(result) > self.comp_char_limit:
+                result = result[:self.comp_char_limit] + f"...[compressed {len(result)}→{self.comp_char_limit}]"
+                self.state["compressed"] += 1
+            result_str = str(result)
+            # TOKEN BUDGET: estimasi token = char/4; warning kalau melebihi
+            est_tokens = len(result_str) // 4
+            self.state["token_used"] += est_tokens
             self.state["data"][phase] = result
-            # checkpoint otomatis
-            self.state["checkpoints"].append({"phase": phase, "at": datetime.datetime.now().isoformat()})
+            self.state["checkpoints"].append({"phase": phase, "at": datetime.datetime.now().isoformat(),
+                                               "tokens": est_tokens})
             self.state["phase"] += 1
-            self.log(f"✓ Fase [{phase}] selesai ({len(str(result))} chars data)")
+            flag = ""
+            if est_tokens > self.token_budget:
+                flag = f" ⚠ melebihi budget {est_tokens}/{self.token_budget}"
+            self.log(f"✓ Fase [{phase}] selesai ({est_tokens} token){flag}")
             self._save()
             return result
         except Exception as e:
@@ -94,7 +118,7 @@ class PhaseEngine:
             data = self.state["data"].get(ph)
             size = len(str(data)) if data else 0
             lines.append(f"  {status} {ph} ({size} chars)")
-        lines.append(f"  Checkpoints: {len(self.state['checkpoints'])} | Log: {len(self.state['log'])}")
+        lines.append(f"  Token dipakai: {self.state['token_used']} | Tercompress: {self.state['compressed']} | Checkpoints: {len(self.state['checkpoints'])}")
         return "\n".join(lines)
 
 # ================= PRESET CONTOH (executable) =================
