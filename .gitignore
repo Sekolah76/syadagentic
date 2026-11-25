@@ -17,3 +17,9 @@ demo/
 # arsenal-skills state
 arsenal-skills/**/__pycache__/
 *.bak
+
+# verify/build artefacts
+arsenal-skills/MANIFEST.sha256.tmp
+*.egg-info/
+.venv/
+venv/
