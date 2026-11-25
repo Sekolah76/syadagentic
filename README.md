@@ -12,7 +12,7 @@
 [![Version](https://img.shields.io/badge/version-9.0.0-2ea44f)](VERSION)
 [![Tests](https://img.shields.io/badge/tests-21-blue)](tests/run_tests.py)
 [![Templates](https://img.shields.io/badge/templates-40%2B-blue)](prompt-injection/templates.md)
-[![Skills](https://img.shields.io/badge/skill%20files-1124-important)](arsenal-skills/MANIFEST.sha256)
+[![Skills](https://img.shields.io/badge/skill%20files-1123-important)](arsenal-skills/MANIFEST.sha256)
 [![Framework](https://img.shields.io/badge/framework--core-5%20modul-purple)](arsenal-framework/)
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.12%20%7C%203.13-lightgrey)](.github/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -33,7 +33,7 @@ Isinya bukan kumpulan teori:
 |---|---|
 | **Prompt layer** | `SOUL.md` (identitas + hierarki L0/L1/L2/L3), `AGENTS.md` (routing 10 divisi), `SYADAGENTIC.md` (protokol lengkap), `IDENTITY.md` (governance operator) |
 | **Jailbreak / red-team layer** | `prompt-injection/templates.md` — 40 template (T1–T119): persona overwrite, reasoning hijack, translation framing, tag injection, provider cascade |
-| **Skill layer** | `arsenal-skills/` — 1.124 file, 84 di antaranya `SKILL.md` lengkap (bug-bounty, security, web-dev, affiliate, automation) + `MANIFEST.sha256` untuk verifikasi integritas |
+| **Skill layer** | `arsenal-skills/` — 1.123 file, 84 di antaranya `SKILL.md` lengkap (bug-bounty, security, web-dev, affiliate, automation) + `MANIFEST.sha256` untuk verifikasi integritas |
 | **Executable layer** | `arsenal-framework/` — phase-engine, governor, chain-map, drills, captcha-harvester (Python, jalan beneran) |
 | **Gate layer** | `gate/gate.py` — 7-stage evidence gate: klaim tanpa bukti = ditolak |
 | **Verification layer** | `tests/run_tests.py` (21 test), `tools/verify_repo.py`, CI GitHub Actions |
@@ -73,7 +73,7 @@ hermes config set agent.system_prompt "$(cat SOUL.md)"   # Hermes
 ```bash
 python3 tests/run_tests.py        # 21 test, dependency opsional auto-skip
 python3 tools/verify_repo.py      # audit klaim vs isi repo
-python3 tools/build_manifest.py --check   # integritas 1.124 file skill
+python3 tools/build_manifest.py --check   # integritas 1.123 file skill
 ```
 
 ---
@@ -90,7 +90,7 @@ syadagentic/
 ├── SAFETY-FRAMEWORK.md         # protected paths, dry-run, kill-switch
 ├── prompt-injection/
 │   └── templates.md            # 40 template jailbreak (T1–T119)
-├── arsenal-skills/             # 1.124 file skill + MANIFEST.sha256
+├── arsenal-skills/             # 1.123 file skill + MANIFEST.sha256
 │   ├── STRATEGIES-LIBRARY.yaml # 5-layer JB + 8 universal pattern
 │   ├── templates-ken/          # payload per model
 │   ├── hermes-bypass/          # bypass guardrail Hermes
@@ -121,9 +121,9 @@ syadagentic/
 | affiliate | 144 | 2 | content & monetization workflow |
 | security | 61 | 1 | web-exploit-test (+ cabang hacktricks) |
 | meta / engineering / ctf / devops / automation / content / intelligence | 122 | 6 | routing, drill, runner |
-| **Total** | **1.124** | **84** | diverifikasi `MANIFEST.sha256` |
+| **Total** | **1.123** | **84** | diverifikasi `MANIFEST.sha256` |
 
-Cek sendiri: `python3 tools/build_manifest.py --check` → `[✓] manifest cocok — 1124 file`.
+Cek sendiri: `python3 tools/build_manifest.py --check` → `[✓] manifest cocok — 1123 file`.
 
 ---
 
@@ -180,7 +180,7 @@ Hasil test lapangan, apa adanya:
 ✅ SAFETY-FRAMEWORK.md    — protected paths, dry-run default, kill-switch
 ✅ install.sh --dry-run   — lihat rencana sebelum menyentuh config
 ✅ backup otomatis        — config agent lama → .bak-syad
-✅ MANIFEST.sha256        — integritas 1.124 file skill (deteksi file diubah)
+✅ MANIFEST.sha256        — integritas 1.123 file skill (deteksi file diubah)
 ✅ CI wajib hijau         — test + syntax + no-secret + no-placeholder
 ```
 

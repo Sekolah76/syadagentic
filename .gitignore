@@ -23,3 +23,6 @@ arsenal-skills/MANIFEST.sha256.tmp
 *.egg-info/
 .venv/
 venv/
+gate_logs/
+*.pyc
+*.bak-*

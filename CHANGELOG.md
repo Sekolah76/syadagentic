@@ -18,7 +18,7 @@ barang, dan CI tidak lagi merah permanen.
 - `VERSION` sebagai satu-satunya sumber versi (dibaca `install.sh`, dicek test
   dan verifier). Badge README tidak bisa lagi beda dari kode.
 - `arsenal-skills/MANIFEST.sha256` + `tools/build_manifest.py` — manifest
-  SHA256 1.124 file skill, bisa diverifikasi (`--check`).
+  SHA256 1.123 file skill, bisa diverifikasi (`--check`).
 - `tools/verify_repo.py` — audit klaim README vs isi direktori, placeholder,
   secret, link relatif, installer, dan CI.
 - `CONTRIBUTING.md`, `SECURITY.md`, `CHANGELOG.md`, issue template, PR
@@ -35,7 +35,7 @@ barang, dan CI tidak lagi merah permanen.
   (`z3`, `camoufox`, `pyyaml`, API env) di-skip, bukan digagalkan; `--strict`
   tersedia kalau mau ketat.
 - README: versi 7.3 → sesuai `VERSION`, angka skill diralat ke angka nyata
-  (1.124 file / 84 `SKILL.md` / 40 template), URL clone placeholder diganti,
+  (1.123 file / 84 `SKILL.md` / 40 template), URL clone placeholder diganti,
   link `t.me/<...>` mati dihapus, TOC + badge CI ditambah.
 - Klaim palsu `SKILLS.lock 8137 skill` di README/SOUL/AGENTS diganti manifest
   yang benar-benar ada.

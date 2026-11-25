@@ -62,7 +62,7 @@ def readme_text() -> str:
 
 
 def claimed_int(text: str, label: str) -> int | None:
-    """Ambil angka dari badge/klaim README, mis. 'skill%20files-1124' atau '**84**'."""
+    """Ambil angka dari badge/klaim README, mis. 'skill%20files-1123' atau '**84**'."""
     m = re.search(rf"{label}[^0-9]{{0,30}}?(\d[\d.]*)", text)
     if not m:
         return None
