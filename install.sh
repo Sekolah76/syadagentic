@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 # ============================================================
 #  SYADAGENTIC — Universal Agent Framework · Installer
-#  v7.3 · Zero-Refusal · 40+ Templates · 1128 Skills
+#  v9 · Zero-Refusal · 40+ Templates · 1100+ Skill Files
 # ------------------------------------------------------------
 #  CARA PAKAI:
 #   1) Clone repo:
-#      git clone https://github.com/USER/syadagentic.git
+#      git clone https://github.com/Sekolah76/syadagentic.git
 #      cd syadagentic
 #   2) Jalankan installer:
 #      bash install.sh
 #      (deteksi otomatis: Hermes · Claude Code · Codex · opencode)
 #
-#  Install manual / kustom:  bash install.sh --dir /path/tujuan
+#  Opsi:
+#      bash install.sh --dir /path/tujuan   # lokasi install kustom
+#      bash install.sh --no-agent           # salin file saja, jangan sentuh config agent
+#      bash install.sh --dry-run            # tampilkan rencana, tanpa menulis apa pun
+#      bash install.sh --version            # cetak versi
+#
+#  Aman: config agent yang sudah ada dibackup (.bak-syad) sebelum diubah.
 # ============================================================
 set -euo pipefail
 
@@ -23,15 +29,27 @@ fail() { echo -e "${RED}[✗]${NC} $*"; exit 1; }
 
 # ---- Argumen ----
 INSTALL_DIR="${SYADAGENTIC_DIR:-$HOME/.syadagentic}"
-if [ "${1:-}" = "--dir" ]; then INSTALL_DIR="${2:-$HOME/.syadagentic}"; fi
-
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VERSION="$(tr -d '[:space:]' < "$SRC_DIR/VERSION" 2>/dev/null || echo "unknown")"
+NO_AGENT=0
+DRY_RUN=0
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --dir)      INSTALL_DIR="${2:-$HOME/.syadagentic}"; shift 2 ;;
+    --no-agent) NO_AGENT=1; shift ;;
+    --dry-run)  DRY_RUN=1; shift ;;
+    --version)  echo "SYADAGENTIC v$VERSION"; exit 0 ;;
+    -h|--help)  sed -n '2,30p' "${BASH_SOURCE[0]}"; exit 0 ;;
+    *)          fail "Argumen tidak dikenal: $1 (pakai --help)" ;;
+  esac
+done
 
 banner() {
   echo ""
   echo "==============================================================="
-  echo "   ${BOLD}SYADAGENTIC v7.3${NC} — Universal Agent Framework"
-  echo "   Zero-Refusal · 40+ Templates · 1128 Skills · Framework-Core"
+  echo "   ${BOLD}SYADAGENTIC v${VERSION}${NC} — Universal Agent Framework"
+  echo "   Zero-Refusal · 40+ Templates · Framework-Core"
   echo "==============================================================="
   echo ""
 }
@@ -91,6 +109,15 @@ install_opencode() {
 # ============================================================
 banner
 
+if [ "$DRY_RUN" = "1" ]; then
+  info "DRY-RUN — tidak ada file yang ditulis"
+  info "Sumber      : $SRC_DIR"
+  info "Tujuan      : $INSTALL_DIR"
+  info "Agent       : $(detect_agents || true)"
+  info "Mode        : $([ "$NO_AGENT" = "1" ] && echo 'file saja (--no-agent)' || echo 'file + config agent')"
+  exit 0
+fi
+
 # 1. Salin framework
 if [ "$SRC_DIR" != "$INSTALL_DIR" ]; then
   info "Instal ke: $INSTALL_DIR"
@@ -105,7 +132,9 @@ cd "$INSTALL_DIR"
 
 # 2. Agent
 AGENTS="$(detect_agents)"
-if [ -z "$AGENTS" ]; then
+if [ "$NO_AGENT" = "1" ]; then
+  warn "--no-agent: config agent tidak disentuh (SOUL.md tetap bisa dipakai manual)"
+elif [ -z "$AGENTS" ]; then
   warn "Tidak ada agent CLI terdeteksi."
   info "Cara manual: copy SOUL.md ke system prompt agent kamu"
 else
@@ -132,6 +161,7 @@ if [ "$VFAIL" = "0" ]; then
   echo "==============================================================="
   echo "   ${GREEN}INSTALASI SELESAI ✓${NC}"
   echo "==============================================================="
+  echo "   Version   : v$VERSION"
   echo "   Framework : $INSTALL_DIR"
   echo "   Agent     :$AGENTS"
   echo ""
