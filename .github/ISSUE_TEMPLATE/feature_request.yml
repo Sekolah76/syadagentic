@@ -1,0 +1,46 @@
+name: Feature / template / skill request
+description: Usul template baru, skill baru, atau perbaikan workflow
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Jenis
+      options:
+        - Template jailbreak (prompt-injection)
+        - Skill baru (arsenal-skills)
+        - Framework-core / tooling
+        - Installer / kompatibilitas
+        - Dokumentasi
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Masalah nyata yang mau diselesaikan
+      description: Satu paragraf, teknis. "Biar keren" bukan masalah.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Usulan konkret
+      description: Langkah/payload/perintah. Kalau template, sebutkan model target dan cara verifikasinya.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Bukti (kalau sudah kamu coba)
+      description: Output tool, hasil test, atau link referensi. Kalau belum ada, bilang belum.
+    validations:
+      required: false
+  - type: checkboxes
+    id: discipline
+    attributes:
+      label: Disiplin repo
+      options:
+        - label: Aku sudah baca CONTRIBUTING.md
+          required: true
+        - label: Kalau ini menambah angka di README, aku siap update manifest + jalankan verify_repo
+          required: true
