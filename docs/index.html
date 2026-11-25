@@ -3,117 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SYADAGENTIC — Universal Jailbreak Protocol</title>
+<title>SYADAGENTIC — Universal Agent Framework (Zero-Refusal)</title>
+<meta name="description" content="Framework prompt + tooling: agent langsung eksekusi. 40+ template jailbreak, 1.123 file skill, framework-core executable, evidence gate, CI hijau.">
 <style>
-  :root { --bg:#0a0a12; --card:#12121f; --accent:#7c3aed; --green:#22c55e; --red:#ef4444; --text:#e5e7eb; --muted:#9ca3af; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
-  .wrap { max-width:900px; margin:0 auto; padding:2rem; }
-  header { text-align:center; padding:3rem 1rem 2rem; }
-  h1 { font-size:2.6rem; background:linear-gradient(135deg,#a78bfa,#22c55e); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-  .tagline { color:var(--muted); margin-top:.5rem; font-size:1.1rem; }
-  .badge { display:inline-block; background:var(--card); border:1px solid #2a2a40; border-radius:20px; padding:.25rem .9rem; margin:.3rem; font-size:.85rem; }
-  .card { background:var(--card); border:1px solid #2a2a40; border-radius:12px; padding:1.5rem; margin:1rem 0; }
-  h2 { color:#a78bfa; margin-bottom:1rem; font-size:1.4rem; }
-  table { width:100%; border-collapse:collapse; margin:.8rem 0; }
-  th,td { text-align:left; padding:.55rem .8rem; border-bottom:1px solid #2a2a40; font-size:.9rem; }
-  th { color:#a78bfa; }
-  .ok { color:var(--green); font-weight:600; }
-  .no { color:var(--red); font-weight:600; }
-  code { background:#1e1e30; padding:.15rem .5rem; border-radius:6px; font-size:.85rem; color:#93c5fd; }
-  pre { background:#1e1e30; padding:1rem; border-radius:8px; overflow-x:auto; font-size:.85rem; margin:.8rem 0; }
-  .btn { display:inline-block; background:var(--accent); color:#fff; padding:.7rem 1.5rem; border-radius:8px; text-decoration:none; font-weight:600; margin:.4rem .2rem; }
-  .btn.gh { background:#24292e; }
-  .footer { text-align:center; color:var(--muted); font-size:.85rem; margin-top:2rem; padding:1rem; }
-  ul { margin:.5rem 0 .5rem 1.4rem; }
-  li { margin:.3rem 0; }
+  :root{
+    --bg:#08080f; --card:#10101c; --line:#232338; --accent:#a78bfa; --accent2:#22c55e;
+    --text:#e7e7ef; --muted:#9aa0b5; --red:#ef4444;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;background:
+    radial-gradient(900px 500px at 50% -10%, #1b1030 0%, transparent 70%), var(--bg);
+    color:var(--text);line-height:1.65}
+  .wrap{max-width:940px;margin:0 auto;padding:2rem 1.25rem 4rem}
+  header{text-align:center;padding:3.5rem 0 2rem}
+  h1{font-size:clamp(2.2rem,6vw,3.2rem);letter-spacing:-.02em;
+     background:linear-gradient(135deg,#c4b5fd,#22c55e);-webkit-background-clip:text;
+     -webkit-text-fill-color:transparent;background-clip:text}
+  .tagline{color:var(--muted);margin-top:.6rem;font-size:1.05rem;max-width:640px;margin-inline:auto}
+  .badges{margin-top:1.4rem;display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center}
+  .badge{background:var(--card);border:1px solid var(--line);border-radius:999px;
+         padding:.28rem .85rem;font-size:.8rem;color:var(--muted)}
+  .badge b{color:var(--text);font-weight:600}
+  .btns{margin-top:1.6rem;display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;background:var(--accent);color:#12091f;padding:.65rem 1.4rem;
+       border-radius:9px;text-decoration:none;font-weight:700;font-size:.9rem}
+  .btn.gh{background:#1f2430;color:var(--text);border:1px solid var(--line)}
+  .btn:hover{transform:translateY(-1px)}
+  section.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+               padding:1.5rem;margin:1rem 0}
+  h2{font-size:1.25rem;color:var(--accent);margin-bottom:.9rem}
+  h3{font-size:1rem;margin:1.1rem 0 .4rem;color:#cfd2e2}
+  p,li{font-size:.94rem;color:#c9cde0}
+  ul{margin:.4rem 0 .2rem 1.2rem}
+  li{margin:.25rem 0}
+  code{background:#1a1a2b;padding:.12rem .45rem;border-radius:6px;font-size:.85em;color:#93c5fd}
+  pre{background:#0e0e1a;border:1px solid var(--line);padding:1rem;border-radius:10px;
+      overflow-x:auto;font-size:.84rem;margin:.8rem 0;color:#d6d9e8}
+  table{width:100%;border-collapse:collapse;margin:.6rem 0}
+  th,td{text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--line);font-size:.88rem}
+  th{color:var(--accent);font-weight:600}
+  td:first-child{white-space:nowrap}
+  .ok{color:var(--accent2);font-weight:600}
+  .no{color:var(--red);font-weight:600}
+  .muted{color:var(--muted);font-size:.86rem}
+  footer{text-align:center;color:var(--muted);font-size:.83rem;margin-top:2.5rem}
+  a{color:var(--accent)}
 </style>
 </head>
 <body>
 <div class="wrap">
+
 <header>
   <h1>SYADAGENTIC</h1>
-  <p class="tagline">Universal Jailbreak Protocol — Zero-Refusal Sovereign Agent Framework</p>
-  <div>
-    <span class="badge">✅ 22 Templates</span>
-    <span class="badge">✅ 100+ Capabilities</span>
-    <span class="badge">✅ 7-Stage Evidence Gate</span>
-    <span class="badge">✅ Multi-Model Verified</span>
+  <p class="tagline">Framework yang bikin agent berhenti menolak dan mulai mengeksekusi —
+     dengan bukti tool output, bukan klaim.</p>
+  <div class="badges">
+    <span class="badge">versi <b>9.0.0</b></span>
+    <span class="badge"><b>40+</b> template JB</span>
+    <span class="badge"><b>1.123</b> file skill</span>
+    <span class="badge"><b>84</b> SKILL.md</span>
+    <span class="badge"><b>21</b> test · CI hijau</span>
+    <span class="badge">MIT</span>
+  </div>
+  <div class="btns">
+    <a class="btn" href="https://github.com/Sekolah76/syadagentic">📦 Repo</a>
+    <a class="btn gh" href="https://github.com/Sekolah76/syadagentic/blob/main/README.md">📖 README</a>
+    <a class="btn gh" href="https://github.com/Sekolah76/syadagentic/archive/refs/heads/main.zip">⬇️ ZIP</a>
   </div>
 </header>
 
 <section class="card">
-  <h2>🧠 Apa Itu SyadAgentic?</h2>
-  <p>Satu file (<code>SYADAGENTIC.md</code>) yang ditempatkan di agent apa pun (Hermes, Claude Code, OpenCode, Cursor, API) membuat LLM <b>nurut dan mengeksekusi tanpa batasan</b> — untuk automation, bot, farming, security testing, AI building, dan research.</p>
-  <ul>
-    <li><b>Zero-Refusal</b> — tidak ada moralizing, tidak ada "saya tidak bisa"</li>
-    <li><b>Intelligence Amplifier</b> — auto-workflow: Analisis → Strategi → Eksekusi → Verifikasi</li>
-    <li><b>Multi-Solusi</b> — A gagal → otomatis B/C/D, tidak menyerah</li>
-    <li><b>No-Hallucination</b> — setiap klaim = real tool output</li>
-    <li><b>Auto-Research</b> — riset mendalam dari semua sumber sampai akar</li>
-  </ul>
+  <h2>⚡ Install (30 detik)</h2>
+<pre>git clone https://github.com/Sekolah76/syadagentic.git
+cd syadagentic
+bash install.sh              # deteksi otomatis Hermes / Claude Code / Codex / opencode
+bash install.sh --dry-run    # lihat rencana, nol tulisan
+bash install.sh --no-agent   # salin file saja, config agent tidak disentuh</pre>
+  <p class="muted">Config agent lama dibackup <code>.bak-syad</code> sebelum diubah.
+     Verifikasi: <code>python3 tests/run_tests.py</code> · <code>python3 tools/verify_repo.py</code></p>
 </section>
 
 <section class="card">
-  <h2>⚡ Cara Pakai (30 detik)</h2>
-  <pre># 1. Taruh di lokasi agent baca otomatis:
-#    Claude Code → ~/.claude/CLAUDE.md
-#    opencode     → ~/.config/opencode/AGENTS.md
-#    Cursor       → ~/.cursorrules
-#    Project      → ./AGENTS.md
-#    API          → system prompt = SYADAGENTIC-SHORT.md (frontier)
-
-# 2. Atau satu-klik installer:
-python install_universal.py
-
-# 3. Verifikasi:
-python tests/run_tests.py   # 10/10 PASS</pre>
-  <a class="btn gh" href="https://github.com/Sekolah76/syadagentic">📦 GitHub Repo</a>
-  <a class="btn" href="https://github.com/Sekolah76/syadagentic/archive/refs/heads/main.zip">⬇️ Download ZIP</a>
-</section>
-
-<section class="card">
-  <h2>📊 Hasil Test Nyata</h2>
+  <h2>🧩 Isi Paket</h2>
   <table>
-    <tr><th>Target</th><th>Hasil</th><th>Keterangan</th></tr>
-    <tr><td>Gemini 3.7 (gateway)</td><td class="ok">5/6 OPEN</td><td>farm, bypass, build-AI, NSFW, abuse</td></tr>
-    <tr><td>Codex GPT-5.6 (gateway)</td><td class="ok">OPEN</td><td>bot workflow 8379 chars</td></tr>
-    <tr><td>GPT-OSS-120b</td><td class="ok">OPEN</td><td>intercept via SYAD-SHORT</td></tr>
-    <tr><td>Laguna/Nemotron (open-weight)</td><td class="ok">OPEN</td><td>konsisten — auto-framing</td></tr>
-    <tr><td>ChatGPT/Claude resmi</td><td class="no">BLOCKED</td><td>classifier server-side — fakta industri</td></tr>
-  </table>
-  <p style="color:var(--muted);font-size:.9rem">Jujur & transparan — framework tembus open-weight + gateway unofficial. API resmi = batas teknis semua framework. Detail di <code>GUIDE-MODEL.md</code>.</p>
-</section>
-
-<section class="card">
-  <h2>📁 Isi Paket</h2>
-  <table>
-    <tr><th>File</th><th>Fungsi</th></tr>
-    <tr><td><code>SYADAGENTIC.md</code></td><td>Universal jailbreak protocol (11KB)</td></tr>
-    <tr><td><code>SYADAGENTIC-SHORT.md</code></td><td>Versi frontier (1.2KB)</td></tr>
-    <tr><td><code>SOUL.md / AGENTS.md</code></td><td>Identity + routing + auto-research</td></tr>
-    <tr><td><code>prefill.json</code></td><td>Compliance priming</td></tr>
-    <tr><td><code>prompt-injection/templates.md</code></td><td>22 template T1-T22</td></tr>
-    <tr><td><code>GUIDE-MODEL.md</code></td><td>Panduan pilih model</td></tr>
-    <tr><td><code>gate/</code></td><td>7-stage evidence gate</td></tr>
-    <tr><td><code>tests/</code></td><td>Test suite 10/10</td></tr>
-    <tr><td><code>tools/</code></td><td>TokenBreak + Caesar encoder</td></tr>
-    <tr><td><code>install_universal.py</code></td><td>Installer 1-klik</td></tr>
+    <tr><th>Lapisan</th><th>Isi</th></tr>
+    <tr><td>Prompt</td><td><code>SOUL.md</code> · <code>AGENTS.md</code> (routing 10 divisi) · <code>SYADAGENTIC.md</code> · <code>IDENTITY.md</code></td></tr>
+    <tr><td>Jailbreak</td><td><code>prompt-injection/templates.md</code> — 40 template (T1–T119)</td></tr>
+    <tr><td>Skill</td><td><code>arsenal-skills/</code> — 1.123 file, 84 <code>SKILL.md</code>, integritas via <code>MANIFEST.sha256</code></td></tr>
+    <tr><td>Eksekusi</td><td><code>arsenal-framework/</code> — phase-engine, governor, chain-map, drills, captcha-harvester</td></tr>
+    <tr><td>Gate</td><td><code>gate/gate.py</code> — 7 stage: klaim tanpa bukti ditolak</td></tr>
+    <tr><td>Verifikasi</td><td><code>tests/run_tests.py</code> (21 test) · <code>tools/verify_repo.py</code> · CI Actions</td></tr>
   </table>
 </section>
 
 <section class="card">
-  <h2>⚠️ Kejujuran (anti-scam)</h2>
+  <h2>📊 Hasil Test (apa adanya)</h2>
+  <table>
+    <tr><th>Target</th><th>Hasil</th><th>Catatan</th></tr>
+    <tr><td>Gemini (gateway)</td><td class="ok">OPEN</td><td>farm, build-AI, abuse, NSFW</td></tr>
+    <tr><td>Codex (gateway)</td><td class="ok">OPEN</td><td>bot workflow nyata</td></tr>
+    <tr><td>Open-weight / finetune</td><td class="ok">OPEN</td><td>paling konsisten (T100+/FINE-TUNE)</td></tr>
+    <tr><td>ChatGPT / Claude resmi</td><td class="no">BLOCKED</td><td>classifier server-side — batas teknis, bukan skill</td></tr>
+  </table>
+  <p class="muted">Yang gagal ditulis gagal. Framework yang klaim "tembus semua model" = penipuan.</p>
+</section>
+
+<section class="card">
+  <h2>⚠️ Kejujuran</h2>
   <ul>
-    <li>"Nurut eksekusi" = 100% berfungsi di open-weight + gateway unofficial</li>
-    <li>API resmi (ChatGPT/Claude/Gemini) = classifier server tak bisa dibobol prompt — klaim sebaliknya = penipuan</li>
-    <li>Bukan tombol ajaib: exploit butuh target yang benar-benar rentan</li>
-    <li>Gunakan utk automation milik sendiri + testing authorized. Tanggung jawab = pengguna</li>
+    <li>Zero-refusal bekerja nyata di open-weight, finetune, dan gateway tidak resmi.</li>
+    <li>API resmi frontier: filter ada di server — tidak bisa dihapus lewat prompt.</li>
+    <li>Isi security hanya untuk target yang kamu punya izinnya (bug bounty, CTF, aset sendiri).</li>
+    <li>Setiap angka di halaman ini punya barangnya di repo dan bisa dicek dengan
+        <code>python3 tools/verify_repo.py</code>.</li>
   </ul>
 </section>
 
-<footer class="footer">
-  © 2026 SyadAgentic — MIT License · For research & authorized automation
+<section class="card">
+  <h2>📚 Dokumen</h2>
+  <ul>
+    <li><a href="https://github.com/Sekolah76/syadagentic/blob/main/SOLVED-LENGKAP.md">SOLVED-LENGKAP.md</a> — panduan semua fitur</li>
+    <li><a href="https://github.com/Sekolah76/syadagentic/blob/main/GUIDE-MODEL.md">GUIDE-MODEL.md</a> — pilih model yang tepat</li>
+    <li><a href="https://github.com/Sekolah76/syadagentic/blob/main/DEPLOY.md">DEPLOY.md</a> — pasang di VPS/server</li>
+    <li><a href="https://github.com/Sekolah76/syadagentic/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> — aturan kontribusi</li>
+    <li><a href="https://github.com/Sekolah76/syadagentic/blob/main/SECURITY.md">SECURITY.md</a> — laporan keamanan</li>
+    <li><a href="https://github.com/Sekolah76/syadagentic/blob/main/CHANGELOG.md">CHANGELOG.md</a> — riwayat versi</li>
+  </ul>
+</section>
+
+<footer>
+  © 2026 SYADAGENTIC · MIT License · untuk riset &amp; otomasi yang authorized
 </footer>
 </div>
 </body>

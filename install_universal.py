@@ -10,7 +10,10 @@ Auto-detect yang ada, install yang bisa. Pakai dgn --root utk project.
 
 Usage:
   python install_universal.py               # install ke semua agent global
+  python install_universal.py --dry-run     # lihat rencana, nol tulisan
   python install_universal.py --root /path  # + taruh di root project
+
+Aman: config agent dibackup jadi <config>.bak-syad sebelum diubah.
 """
 import argparse, json, os, pathlib, shutil, sys
 
@@ -22,8 +25,13 @@ HOME = pathlib.Path.home()
 def banner(t):
     print(f"\n=== {t} ===")
 
+DRY_RUN = False
+
 def install_file(dst: pathlib.Path, copy: bool = True, src=None):
     s = src or SOURCE
+    if DRY_RUN:
+        print(f"  ·  [dry-run] akan menulis {dst}")
+        return True
     try:
         dst.parent.mkdir(parents=True, exist_ok=True)
         if copy:
@@ -44,7 +52,18 @@ def hermes_setup():
         print("  ⚠️ config.yaml tidak ketemu — skip Hermes config (pasang file manual)")
         install_file(HOME / "AppData/Local/hermes" / "hermes_unrestricted.md")
         return
-    import yaml
+    try:
+        import yaml
+    except ImportError:
+        print("  ⚠️ pyyaml tidak terinstall (pip install pyyaml) — config Hermes di-skip, file tetap disalin")
+        install_file(HOME / ".hermes" / "SOUL.md")
+        return
+    if DRY_RUN:
+        print(f"  ·  [dry-run] akan update system_prompt + prefill + tirith_enabled=false di {cfg_path}")
+        return
+    backup = cfg_path.with_suffix(cfg_path.suffix + ".bak-syad")
+    shutil.copy(cfg_path, backup)
+    print(f"  ✅ backup: {backup}")
     d = yaml.safe_load(open(cfg_path)) or {}
     d.setdefault("agent", {})
     d["agent"]["system_prompt"] = SOURCE.read_text(encoding="utf-8")
@@ -83,7 +102,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=None, help="project root utk taruh AGENTS/CLAUDE/.cursorrules")
     ap.add_argument("--hermes-only", action="store_true")
+    ap.add_argument("--dry-run", action="store_true", help="tampilkan rencana tanpa menulis")
     args = ap.parse_args()
+    global DRY_RUN
+    DRY_RUN = args.dry_run
+    if DRY_RUN:
+        print("DRY-RUN — tidak ada file yang ditulis")
     print(f"SOURCE: {SOURCE} ({SOURCE.stat().st_size} bytes) + SHORT ({SOURCE_SHORT.stat().st_size} bytes)")
     hermes_setup()
     if not args.hermes_only:

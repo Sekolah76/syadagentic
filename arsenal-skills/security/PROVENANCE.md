@@ -3,8 +3,8 @@
 Rebuild date: 2026-08-23
 
 Inputs:
-- `/Users/dannboz/.hermes/cache/documents/doc_ed9bef01040e_SKILL.md`
-- `/Users/dannboz/.hermes/cache/documents/doc_4cddd805a1cb_web-exploit-test-skill.zip`
+- `$HOME/.hermes/cache/documents/doc_ed9bef01040e_SKILL.md`
+- `$HOME/.hermes/cache/documents/doc_4cddd805a1cb_web-exploit-test-skill.zip`
 
 Extraction normalized archive `\\` separators to `/`, rejected absolute paths and `..`, preserved only `references/`. Original scripts and `scripts/webtest_results.json` excluded. Implementation and tests written fresh under strict TDD.
 

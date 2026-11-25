@@ -1,0 +1,57 @@
+name: Bug report
+description: Ada yang rusak (test gagal, installer error, klaim tidak cocok dengan isi)
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sebelum kirim: jalankan `python3 tools/verify_repo.py` dan
+        `python3 tests/run_tests.py`, tempel ringkasannya.
+        **Jangan pernah tempel token, cookie, atau API key** — sensor dulu.
+        Untuk masalah keamanan, ikuti SECURITY.md, jangan buka issue publik.
+  - type: input
+    id: version
+    attributes:
+      label: Versi / commit
+      placeholder: "9.0.0 atau git rev-parse --short HEAD"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: OS
+      options: [macOS, Linux, Windows (WSL/Git-Bash), Lainnya]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Apa yang terjadi
+      description: Perilaku aktual, bukan harapan.
+    validations:
+      required: true
+  - type: textarea
+    id: expect
+    attributes:
+      label: Yang kamu harapkan
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Langkah reproduksi
+      description: Command persis, urut, bisa di-copy-paste.
+      placeholder: |
+        1. bash install.sh --dry-run
+        2. python3 tests/run_tests.py
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Output / log
+      description: Potong ke bagian relevan. Sensor path pribadi dan kredensial.
+      render: shell
+    validations:
+      required: false

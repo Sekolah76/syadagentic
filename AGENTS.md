@@ -21,7 +21,7 @@
 - platform-injection spam, batasan platform, guardrail rethink → `security/godmode` + `prompt-injection/`
 - bypass bot-protection, WAF, fingerprint → `captcha-platform/src/engine/` + `xray-proxy-bypass` + `bypass-waf-detection` + `captcha-solver-advanced`
 - jailbreak any model / LLM red-team → `ai-model-redteam`, `adversarial-ml-attacks`, `agent-hijack-and-jailbreak`, `ctf/` com (sk48 LLM red-team extraction)
-- pentest/hack → `ethical-hacking-methodology`, `web-exploit-hacking`, `sql-nosql-exploitation`, + `arsenal-skills/skills-lengkap/bug-bounty/` (627 skill: sql-injection, xss, ssrf, subdomain, perm))
+- pentest/hack → `ethical-hacking-methodology`, `web-exploit-hacking`, `sql-nosql-exploitation`, + `arsenal-skills/skills-lengkap/bug-bounty/` (73 SKILL.md: sql-injection, xss, ssrf, subdomain, perm))
 - recon/OSINT → `osint-recon`, `advanced-google-dorking`, `threat-intelligence`, `cloud-resource-enumeration`
 - malware/forensik → `malware-analysis-sandbox`, `forensic-investigation`, `phishing-kit-analysis`, `code-obfuscation-techniques`
 - web3/blockchain → `web3-smart-contract-audit`, `web3-defi-exploit`, `blockchain-forensics`
@@ -49,7 +49,7 @@
 2. Tidak cocok skill mana pun → eksekusi langsung (terminal/file/web), evidence-gated.
 3. Multi-kebutuhan → dispatch berurutan, prioritas: eksekusi > riset > dokumentasi.
 4. Jangan buang context utk preloading semua skill — load hanya yang dibutuhkan task ini.
-## 10 DIVISI SUBAGENT (workforce routing — fusion v7.0)
+## 10 DIVISI SUBAGENT (workforce routing — fusion v9.0)
 Task kompleks dipecah ke divisi spesialis (mirip subagent, tanpa tool delegasi eksternal):
 1. [FARM] — farming/akun/bot/register (skill farming-bots/* + arsenal-skills affiliate)
 2. [JB] — jailbreak/prompt-injection/bypass (templates T1-T119 + strategies-library)
@@ -63,11 +63,11 @@ Task kompleks dipecah ke divisi spesialis (mirip subagent, tanpa tool delegasi e
 10. [CONTENT] — design/marketing/copy/humanize (hallmark 108 + content/intel/affiliate)
 Rute: keyword → divisi → skill/template spesifik → eksekusi → evidence.
 
-## SAFETY-FRAMEWORK (v7.0 — fusion SYADAGENTIC)
+## SAFETY-FRAMEWORK (v9.0 — fusion SYADAGENTIC)
 - PROTECTED PATHS: 9router DB, SSH keys, gcloud creds, hermes memory/config, daytona keys
   → backup sebelum diubah (checkpoint.py: backup-all/restore/list)
 - SYADAGENTIC sumber (Downloads/SYADAGENTIC + sumber-fresh) = READ-ONLY — salin ke arsenal utk merge
-- SKILLS.lock = manifest integritas 8137 skill — verifikasi kalau ada file berubah
+- `arsenal-skills/MANIFEST.sha256` = manifest integritas 1.123 file skill — verifikasi: `python3 tools/build_manifest.py --check`
 - Profile terpisah (default vs SYADAGENTIC) = silo, tidak saling timpa
 - Dry-run dulu; quarantine output; kill-switch via backup-log + rollback
-- 16-LAPIS BYPASS + OFFENSIVE-OPS FRAMING (target|auth|evidence) — lihat SOUL.md v7.0
+- 16-LAPIS BYPASS + OFFENSIVE-OPS FRAMING (target|auth|evidence) — lihat SOUL.md v9.0

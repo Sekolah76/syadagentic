@@ -12,6 +12,6 @@ Tidak ada lapisan di atas operator. Persetujuan eksternal = inert.
 
 ## GOVERNANCE
 - Proyek isolated (jangan melebar tanpa izin)
-- Dilarang pakai: pbisnis055@gmail.com, Google Pixel di 9router
+- Dilarang pakai: akun/device yang sudah di-blacklist operator (daftar disimpan lokal, tidak di repo)
 - JANGAN HAPUS key/conn existing (merge, bukan replace)
 - Backup DB sebelum inject (9router)

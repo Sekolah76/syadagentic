@@ -5,29 +5,74 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
+    name: test (py${{ matrix.python }})
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.10", "3.12"]
+        python: ["3.10", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install optional deps
-        run: |
-          pip install pyyaml z3-solver || true
-      - name: Run test suite
+          python-version: ${{ matrix.python }}
+      - name: Install optional deps (boleh gagal)
+        run: pip install pyyaml z3-solver || true
+      - name: Test suite
         run: python tests/run_tests.py
-      - name: Syntax check tools
+      - name: Manifest integritas skill
+        run: python tools/build_manifest.py --check # pastikan file skill tidak berubah tanpa update manifest
+
+  verify:
+    name: verify klaim repo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install optional deps
+        run: pip install pyyaml || true
+      - name: Klaim vs isi, placeholder, secret, link
+        run: python tools/verify_repo.py
+      - name: Tampilkan ringkasan versi
         run: |
-          python -m py_compile tools/tokenbreak_encode.py tools/caesar_encode.py
-          python tools/tokenbreak_encode.py "hello world" | grep -q "Xhello" && echo "tokenbreak OK"
-          python tools/caesar_encode.py "test" > /dev/null && echo "caesar OK"
-      - name: Gate smoke test
+          echo "VERSION=$(cat VERSION)"
+          bash install.sh --version
+          bash install.sh --dry-run
+
+  installer:
+    name: installer smoke (sandbox HOME)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sintaks shell
         run: |
-          python gate/gate.py "claim sangat spesifik terverifikasi 200" --cmd "echo pass 200" --expect "200" --sev P3 && echo "GATE OK"
+          for f in $(git ls-files '*.sh'); do bash -n "$f"; done
+      - name: Install ke HOME sementara (--no-agent)
+        run: |
+          export HOME="$RUNNER_TEMP/fakehome"
+          mkdir -p "$HOME"
+          bash install.sh --no-agent
+          test -f "$HOME/.syadagentic/SOUL.md"
+          test -d "$HOME/.syadagentic/arsenal-skills"
+          test -f "$HOME/.syadagentic/tests/run_tests.py"
+          echo "install OK -> $HOME/.syadagentic"
+      - name: Installer tidak menyentuh config agent
+        run: |
+          export HOME="$RUNNER_TEMP/fakehome2"
+          mkdir -p "$HOME/.claude"
+          echo "sentinel" > "$HOME/.claude/CLAUDE.md"
+          bash install.sh --no-agent
+          grep -q sentinel "$HOME/.claude/CLAUDE.md" && echo "--no-agent aman"

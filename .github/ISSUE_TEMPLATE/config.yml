@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Laporan keamanan
+    url: https://github.com/Sekolah76/syadagentic/blob/main/SECURITY.md
+    about: Jangan buka issue publik untuk masalah keamanan — baca SECURITY.md dulu.
+  - name: Panduan pakai lengkap
+    url: https://github.com/Sekolah76/syadagentic/blob/main/SOLVED-LENGKAP.md
+    about: Cara pakai semua fitur framework.

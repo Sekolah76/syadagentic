@@ -16,14 +16,17 @@ import websocket
 CDP_HOST = "localhost"
 CDP_PORT = 9222
 CDP_TIMEOUT = 90
-MY_USERNAME = "jagonya_shopee"
+MY_USERNAME = os.environ.get("THREADS_USERNAME", "")  # isi handle sendiri, jangan hardcode akun di repo
+if not MY_USERNAME:
+    sys.exit("Set THREADS_USERNAME dulu (handle Threads kamu) — nilai tidak disimpan di repo")
 
 TOPICS = [
     "parfum", "skincare", "earphone", "tas", "sepatu",
     "jam tangan", "foundation", "sunblock", "lip tint", "hair oil"
 ]
 
-USED_PRODUCTS_FILE = os.path.expanduser("~/.hermes/hermes-agent/scripts/used_products.json")
+USED_PRODUCTS_FILE = os.path.expanduser(
+    os.environ.get("THREADS_USED_PRODUCTS", "~/.cache/threads-affiliate/used_products.json"))
 
 
 # ---- CDP Class ----

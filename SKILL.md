@@ -1,5 +1,5 @@
 # SYADAGENTIC — SKILL.md (Skill Reference & Dispatch)
-# v7.0 — fusion SyadAgentic × SYADAGENTIC. Daftar skill yang tersedia utk agent.
+# v9.0 — fusion SyadAgentic × SYADAGENTIC. Daftar skill yang tersedia utk agent.
 # Load skill saat task cocok — jangan preload semua (hemat context).
 
 ## ARSENAL UTAMA (syadagentic-killer/arsenal/)
